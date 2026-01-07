@@ -1,26 +1,263 @@
 @import "tailwindcss";
 
+/* -------------------------------------------------------------------------- */
+/* NICOR — Premium Global Styles (Tailwind v4 safe: NO @apply dependencies)   */
+/* -------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: 248 250 252;          /* slate-50 */
+  --panel: 255 255 255;
+  --panel2: 250 250 250;
+  --text: 9 9 11;             /* zinc-950 */
+  --muted: 82 82 91;          /* zinc-600 */
+  --muted2: 113 113 122;      /* zinc-500 */
+  --border: 228 228 231;      /* zinc-200 */
+  --hairline: 243 244 246;    /* gray-100 */
+
+  --brand: 20 184 166;        /* teal-500 */
+  --brand2: 59 130 246;       /* blue-500 */
+  --accent: 244 63 94;        /* rose-500 */
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 12px 30px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 25px 60px rgb(0 0 0 / 0.14);
+  --shadow-glow: 0 0 0 6px rgb(var(--brand) / 0.14);
+
+  --r-sm: 14px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 160ms;
+  --dur-2: 260ms;
+  --dur-3: 420ms;
+
+  --container: 72rem; /* 1152px ~ max-w-6xl */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html, body { height: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
 }
+
+::selection { background: rgb(var(--brand) / 0.22); }
+
+/* Focus */
+:focus { outline: none; }
+:focus-visible { box-shadow: var(--shadow-glow); border-radius: 10px; }
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* ------------------------------ Layout ----------------------------------- */
+.nicor-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: var(--container);
+}
+
+/* ------------------------------ Text ------------------------------------- */
+.nicor-title {
+  font-weight: 650;
+  font-size: clamp(2.1rem, 3.8vw, 3.6rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.nicor-h2 {
+  font-weight: 650;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.nicor-p {
+  color: rgb(var(--muted));
+  line-height: 1.6;
+  font-size: 1rem;
+}
+@media (min-width: 768px) {
+  .nicor-p { font-size: 1.125rem; }
+}
+
+/* ------------------------------ Surfaces --------------------------------- */
+.nicor-card {
+  border-radius: 24px;
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--panel));
+  box-shadow: var(--shadow-sm);
+}
+
+.nicor-glass {
+  border-radius: 24px;
+  border: 1px solid rgb(var(--border) / 0.85);
+  background: linear-gradient(180deg, rgb(var(--panel) / 0.78), rgb(var(--panel) / 0.60));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.nicor-card-premium {
+  border-radius: var(--r-xl);
+  border: 1px solid rgb(var(--border) / 0.92);
+  background:
+    radial-gradient(900px 500px at 10% 10%, rgb(var(--brand) / 0.12), transparent 55%),
+    radial-gradient(700px 420px at 90% 10%, rgb(var(--brand2) / 0.10), transparent 55%),
+    linear-gradient(180deg, rgb(var(--panel)), rgb(var(--panel2)));
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.nicor-card-premium::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.6), transparent 45%);
+  transform: rotate(12deg);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* ------------------------------ Chips ------------------------------------ */
+.nicor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--panel) / 0.72);
+  padding: .25rem .75rem;
+  font-size: .75rem;
+  color: rgb(var(--text));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ------------------------------ Buttons ---------------------------------- */
+.nicor-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-weight: 600;
+  user-select: none;
+  border-radius: var(--r-md);
+  padding: .82rem 1.15rem;
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    filter var(--dur-2) var(--ease-out);
+}
+
+.nicor-btn:active { transform: translateY(1px) scale(0.99); }
+
+.nicor-btn-primary {
+  color: white;
+  background: linear-gradient(
+    135deg,
+    rgb(var(--text)) 0%,
+    rgb(var(--text) / 0.90) 55%,
+    rgb(var(--brand2) / 0.85) 100%
+  );
+  box-shadow: 0 18px 50px rgb(0 0 0 / 0.16);
+}
+.nicor-btn-primary:hover { filter: brightness(1.04); box-shadow: 0 22px 60px rgb(0 0 0 / 0.18); }
+
+.nicor-btn-ghost {
+  color: rgb(var(--text));
+  background: rgb(var(--panel) / 0.55);
+  border: 1px solid rgb(var(--border));
+}
+.nicor-btn-ghost:hover { background: rgb(var(--panel)); box-shadow: var(--shadow-sm); }
+
+.nicor-btn-brand {
+  color: white;
+  background: linear-gradient(135deg, rgb(var(--brand2)), rgb(var(--brand)));
+  box-shadow: 0 20px 60px rgb(var(--brand2) / 0.18);
+}
+.nicor-btn-brand:hover { filter: brightness(1.05); }
+
+/* ------------------------------ Inputs ----------------------------------- */
+.nicor-input {
+  width: 100%;
+  height: 3rem;
+  border-radius: var(--r-md);
+  border: 1px solid rgb(var(--border));
+  padding: 0 1rem;
+  background: rgb(var(--panel));
+  color: rgb(var(--text));
+  transition:
+    box-shadow var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out);
+}
+.nicor-input::placeholder { color: rgb(var(--muted2)); }
+.nicor-input:focus-visible {
+  box-shadow: 0 0 0 5px rgb(var(--brand) / 0.16);
+  border-color: rgb(var(--brand) / 0.55);
+}
+
+/* ------------------------------ Helpers ---------------------------------- */
+.nicor-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--border)), transparent);
+}
+
+.nicor-gradient-text {
+  background: linear-gradient(135deg, rgb(var(--text)) 0%, rgb(var(--text) / 0.72) 30%, rgb(var(--brand2)) 70%, rgb(var(--brand)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nicor-lift {
+  transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.nicor-lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.nicor-ring-hover { transition: box-shadow var(--dur-2) var(--ease-out); }
+.nicor-ring-hover:hover { box-shadow: 0 0 0 6px rgb(var(--brand) / 0.12); }
+
+/* Noise overlay */
+.nicor-noise { position: relative; isolation: isolate; }
+.nicor-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar { width: 12px; height: 12px; }
+*::-webkit-scrollbar-track { background: rgb(var(--bg)); }
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgb(var(--border)), rgb(var(--border) / 0.65));
+  border: 3px solid rgb(var(--bg));
+  border-radius: 999px;
+}
+
+/* Animations */
+@keyframes nicor-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.nicor-animate-in { animation: nicor-fade-up var(--dur-3) var(--ease-out) both; }
