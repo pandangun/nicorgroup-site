@@ -1,247 +1,113 @@
 import Link from "next/link";
-import { CheckCircle2, Clock, ShieldCheck, Wrench, Flame, Droplets, ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ShieldCheck,
+  Flame,
+  Droplets,
+  Wrench,
+} from "lucide-react";
+import { Hero } from "@/components/home/Hero";
 
-const cards = [
-  { title: "Тёплый пол", desc: "Водяной тёплый пол: укладка, коллектор, опрессовка.", icon: Flame, href: "/services/floor-heating" },
-  { title: "Отопление", desc: "Котлы, радиаторы, разводка, узлы, балансировка.", icon: Flame, href: "/services/heating" },
-  { title: "Санузел под ключ", desc: "Душ, унитаз, раковина, инсталляция, подводка.", icon: Droplets, href: "/services/bathroom" },
-  { title: "Установка сантехники", desc: "Унитазы, смесители, сифоны, душевые системы.", icon: Wrench, href: "/services/installation" },
+const services = [
+  {
+    title: "Санузел под ключ",
+    desc: "Разводка труб, инсталляция, душ/ванна, подключение, герметичность.",
+    icon: Droplets,
+    href: "/services/bathroom",
+    bullets: ["Смета до начала", "Аккуратно и чисто", "Гарантия по договору"],
+  },
+  {
+    title: "Тёплый пол",
+    desc: "Водяной тёплый пол: укладка, коллектор, опрессовка, запуск.",
+    icon: Flame,
+    href: "/services/floor-heating",
+    bullets: ["Опрессовка", "Коллекторный узел", "Пуск и проверка"],
+  },
+  {
+    title: "Отопление",
+    desc: "Котёл, радиаторы, узлы, балансировка, разводка по дому/квартире.",
+    icon: Flame,
+    href: "/services/heating",
+    bullets: ["Узлы и обвязка", "Балансировка", "Проверка/настройка"],
+  },
+  {
+    title: "Установка сантехники",
+    desc: "Унитазы, смесители, сифоны, душевые системы, мелкий ремонт.",
+    icon: Wrench,
+    href: "/services/installation",
+    bullets: ["Монтаж и замена", "Устранение течей", "Подключения"],
+  },
 ];
 
-const bullets = [
-  "Тёплый пол: укладка + коллектор + опрессовка",
-  "Санузел под ключ: душ/унитаз/раковина",
-  "Отопление: радиаторы, котёл, узлы",
-  "Установка сантехники и устранение течей",
+const faq = [
+  {
+    q: "Сколько стоит санузел под ключ?",
+    a: "Мы не играем в «от 500 ₽ за всё». Даём диапазон после фото/замеров и фиксируем смету до старта. Цена зависит от объёма работ, материалов и доступа.",
+  },
+  {
+    q: "Вы работаете по договору?",
+    a: "Да. Фиксируем состав работ, сроки, стоимость и гарантию. Без «потом допов» и сюрпризов.",
+  },
+  {
+    q: "Можно ли быстро — сегодня/завтра?",
+    a: "Часто да. Напиши/позвони, пришли фото — скажем ближайшее окно и что нужно подготовить.",
+  },
 ];
-
-function StatCard({
-  title,
-  desc,
-  Icon,
-}: {
-  title: string;
-  desc: string;
-  Icon: any;
-}) {
-  return (
-    <div className="nicor-card nicor-lift nicor-ring-hover p-4">
-      <div className="flex items-start gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-2xl border bg-white nicor-border">
-          <Icon className="h-5 w-5 text-zinc-900" />
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-zinc-900">{title}</div>
-          <div className="mt-1 text-sm text-zinc-500">{desc}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function Home() {
   return (
     <div className="bg-[rgb(var(--bg))]">
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        {/* ambient background */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(900px_500px_at_15%_10%,rgba(20,184,166,0.12),transparent_60%),radial-gradient(900px_500px_at_90%_15%,rgba(59,130,246,0.10),transparent_60%),radial-gradient(700px_420px_at_35%_95%,rgba(244,63,94,0.08),transparent_60%)]" />
-          {/* subtle grid */}
-          <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,rgba(0,0,0,.9)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,.9)_1px,transparent_1px)] [background-size:64px_64px]" />
-          {/* top vignette */}
-          <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(0,0,0,0.05),transparent)]" />
-        </div>
+      <Hero />
 
-        <div className="nicor-container relative grid gap-10 py-14 md:grid-cols-2 md:py-20">
-          {/* LEFT */}
-          <div className="relative nicor-animate-in">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="nicor-chip">
-                <Clock className="h-3.5 w-3.5" />
-                Выезд в день обращения • Договор • Гарантия
-              </span>
-
-              <span className="nicor-chip">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                Премиум-аккуратность
-              </span>
-            </div>
-
-            <h1 className="mt-5 nicor-title">
-              Сантехнические работы{" "}
-              <span className="nicor-gradient-text">под ключ</span>
-            </h1>
-
-            <p className="mt-4 nicor-p">
-              Тёплые полы, отопление, унитазы, раковины, души, разводка труб,
-              санузел под ключ. Работаем аккуратно: защита, чистота, контроль.
-            </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/contacts#lead" className="nicor-btn-primary">
-                Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
-              </Link>
-              <Link href="/services" className="nicor-btn-ghost">
-                Смотреть услуги
-              </Link>
-            </div>
-
-            {/* premium value cards */}
-            <div className="mt-9 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <StatCard
-                title="Гарантия"
-                desc="Фиксируем условия и цену до старта."
-                Icon={ShieldCheck}
-              />
-              <StatCard
-                title="Аккуратно"
-                desc="Защита поверхностей и уборка после работ."
-                Icon={CheckCircle2}
-              />
-            </div>
-
-            {/* trust line */}
-            <div className="mt-8 nicor-glass rounded-3xl p-4 border nicor-border">
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-600">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-zinc-900" />
-                  Без “сюрпризов” по цене
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-zinc-900" />
-                  Согласование до начала
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-zinc-900" />
-                  Чистота на объекте
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="relative nicor-animate-in">
-            <div className="nicor-card-premium nicor-noise p-6">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <div className="text-sm font-semibold text-zinc-900">
-                    Что мы делаем чаще всего
-                  </div>
-                  <div className="mt-1 text-sm text-zinc-500">
-                    Популярные работы и быстрый расчёт
-                  </div>
-                </div>
-
-                <div className="hidden sm:flex items-center gap-2">
-                  <span className="nicor-chip">24/7 мессенджер</span>
-                </div>
-              </div>
-
-              <div className="mt-5 grid gap-3">
-                {bullets.map((t) => (
-                  <div
-                    key={t}
-                    className="group nicor-glass rounded-3xl border nicor-border p-4 nicor-lift"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 grid h-9 w-9 place-items-center rounded-2xl border bg-white nicor-border">
-                        <CheckCircle2 className="h-4 w-4 text-zinc-900" />
-                      </div>
-                      <div className="text-sm text-zinc-700">
-                        {t}
-                        <div className="mt-2 text-xs text-zinc-500">
-                          Оценим по фото и предложим варианты.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 nicor-divider opacity-70" />
-
-                    <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
-                      <span>Сроки: согласуем</span>
-                      <span className="text-zinc-900 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                        Подробнее →
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 rounded-3xl border nicor-border bg-[rgb(var(--panel))] p-5 shadow-[var(--shadow-sm)]">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-semibold text-zinc-900">Быстрый расчёт</div>
-                    <div className="mt-1 text-sm text-zinc-600">
-                      Пришли фото → скажем диапазон цены и ближайшее окно.
-                    </div>
-                  </div>
-                  <div className="hidden sm:grid h-10 w-10 place-items-center rounded-2xl border bg-white nicor-border">
-                    <Clock className="h-5 w-5 text-zinc-900" />
-                  </div>
-                </div>
-
-                <Link href="/contacts#lead" className="mt-4 nicor-btn-brand w-full">
-                  Отправить фото <ArrowRight className="h-4 w-4 opacity-90" />
-                </Link>
-
-                <div className="mt-4 text-xs text-zinc-500">
-                  Ответим быстро. Без спама. Только по делу.
-                </div>
-              </div>
-            </div>
-
-            {/* small floating detail */}
-            <div className="pointer-events-none absolute -right-10 -top-10 hidden h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(20,184,166,0.18),transparent_60%)] blur-2xl md:block" />
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES GRID */}
-      <section className="border-t nicor-border bg-[rgb(var(--panel))]">
-        <div className="nicor-container py-12">
+      {/* SERVICES */}
+      <section className="bg-[rgb(var(--panel))] border-t nicor-border">
+        <div className="nicor-container py-14">
           <div className="flex items-end justify-between gap-4">
-            <div className="nicor-animate-in">
-              <h2 className="nicor-h2">Основные направления</h2>
+            <div>
+              <h2 className="nicor-h2">Услуги</h2>
               <p className="mt-2 nicor-p">
-                Сантехника в широком смысле: от монтажа до инженерных узлов.
+                Основные направления. Каждую страницу услуги усилим под SEO и конверсию.
               </p>
             </div>
-
-            <Link
-              href="/services"
-              className="hidden nicor-btn-ghost px-4 py-2 text-sm md:inline-flex"
-            >
+            <Link href="/services" className="hidden md:inline-flex nicor-btn-ghost">
               Все услуги <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="mt-7 grid gap-4 md:grid-cols-2">
-            {cards.map((c) => {
-              const Icon = c.icon;
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {services.map((s) => {
+              const Icon = s.icon;
               return (
                 <Link
-                  key={c.title}
-                  href={c.href}
-                  className="group nicor-card-premium p-6 nicor-lift"
+                  key={s.title}
+                  href={s.href}
+                  className="group rounded-[28px] border nicor-border bg-white p-6 shadow-[var(--shadow-sm)] nicor-lift"
                 >
-                  <div className="flex items-start gap-3">
-                    <div className="grid h-11 w-11 place-items-center rounded-2xl border bg-white nicor-border">
+                  <div className="flex items-start gap-4">
+                    <div className="grid h-11 w-11 place-items-center rounded-2xl border nicor-border bg-white">
                       <Icon className="h-5 w-5 text-zinc-900" />
                     </div>
 
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <div className="truncate font-semibold text-zinc-900">{c.title}</div>
-                        <span className="hidden sm:inline-flex nicor-chip text-[11px]">
-                          Премиум
-                        </span>
+                        <div className="truncate text-base font-semibold">{s.title}</div>
+                        <span className="nicor-chip text-[11px]">СПб</span>
                       </div>
+                      <div className="mt-1 text-sm text-zinc-600">{s.desc}</div>
 
-                      <div className="mt-1 text-sm text-zinc-600">{c.desc}</div>
+                      <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
+                        {s.bullets.map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
 
-                      <div className="mt-4 inline-flex items-center gap-2 text-sm text-zinc-700 transition-colors group-hover:text-zinc-950">
-                        Подробнее <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      <div className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-700 group-hover:text-zinc-950">
+                        Подробнее{" "}
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   </div>
@@ -249,11 +115,119 @@ export default function Home() {
               );
             })}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 nicor-divider" />
+      {/* SEO + PROCESS + FAQ */}
+      <section className="bg-[rgb(var(--bg))]">
+        <div className="nicor-container py-14">
+          <h2 className="nicor-h2">Сантехник в СПб и области</h2>
+          <p className="mt-3 nicor-p">
+            Работаем по городу и ближайшим районам. Частые задачи: санузел под ключ,
+            установка сантехники, тёплый пол, отопление и аварийные выезды. Формируем
+            смету до начала и фиксируем условия по договору.
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="rounded-[28px] border nicor-border bg-white p-6">
+              <div className="text-sm font-semibold">Районы (пример)</div>
+              <p className="mt-2 text-sm text-zinc-600">
+                Приморский • Выборгский • Калининский • Московский • Невский •
+                Фрунзенский • Петроградский • Красносельский • Кудрово • Мурино •
+                Парнас и др.
+              </p>
+              <div className="mt-4 text-xs text-zinc-500">
+                Под SEO позже сделаем отдельный блок “гео-страниц” (без спама).
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border nicor-border bg-white p-6">
+              <div className="text-sm font-semibold">Как работаем</div>
+              <ol className="mt-3 space-y-2 text-sm text-zinc-700">
+                <li className="flex gap-2">
+                  <span className="nicor-chip">1</span> Фото/звонок → уточняем задачу
+                </li>
+                <li className="flex gap-2">
+                  <span className="nicor-chip">2</span> Диапазон цены → согласуем состав работ
+                </li>
+                <li className="flex gap-2">
+                  <span className="nicor-chip">3</span> Смета и договор → выезд/монтаж
+                </li>
+                <li className="flex gap-2">
+                  <span className="nicor-chip">4</span> Проверка → сдача → гарантия
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-[28px] border nicor-border bg-white p-6">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5 text-zinc-900" />
+              <h3 className="text-lg font-semibold">Вопросы</h3>
+            </div>
+
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              {faq.map((f) => (
+                <div key={f.q} className="rounded-[22px] bg-zinc-50 p-4">
+                  <div className="text-sm font-semibold">{f.q}</div>
+                  <div className="mt-2 text-sm text-zinc-600">{f.a}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link href="/contacts#lead" className="nicor-btn-brand">
+                Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
+              </Link>
+              <Link href="/services/bathroom" className="nicor-btn-ghost">
+                Санузел под ключ <ArrowRight className="h-4 w-4 opacity-90" />
+              </Link>
+            </div>
+          </div>
+
+          {/* tiny SEO hook-links */}
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <Link
+              href="/services/bathroom"
+              className="rounded-[22px] border nicor-border bg-white p-5 nicor-lift"
+            >
+              <div className="flex items-center gap-2 font-semibold">
+                <Droplets className="h-4 w-4" />
+                Санузел под ключ
+              </div>
+              <div className="mt-2 text-sm text-zinc-600">
+                Разводка труб, монтаж, герметичность, чистота.
+              </div>
+            </Link>
+
+            <Link
+              href="/services/floor-heating"
+              className="rounded-[22px] border nicor-border bg-white p-5 nicor-lift"
+            >
+              <div className="flex items-center gap-2 font-semibold">
+                <Flame className="h-4 w-4" />
+                Тёплый пол
+              </div>
+              <div className="mt-2 text-sm text-zinc-600">
+                Коллектор, опрессовка, запуск и проверка.
+              </div>
+            </Link>
+
+            <Link
+              href="/services/installation"
+              className="rounded-[22px] border nicor-border bg-white p-5 nicor-lift"
+            >
+              <div className="flex items-center gap-2 font-semibold">
+                <Wrench className="h-4 w-4" />
+                Установка сантехники
+              </div>
+              <div className="mt-2 text-sm text-zinc-600">
+                Монтаж/замена, устранение течей, подключения.
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
   );
 }
-

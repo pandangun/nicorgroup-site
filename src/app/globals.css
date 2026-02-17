@@ -2,39 +2,54 @@
 
 /* -------------------------------------------------------------------------- */
 /* NICOR — Premium Global Styles (Tailwind v4 safe: NO @apply dependencies)   */
+/* Goal: clean, modern, less "rectangles in rectangles", ready for photos     */
 /* -------------------------------------------------------------------------- */
 
 :root {
+  /* Surfaces */
   --bg: 248 250 252;          /* slate-50 */
   --panel: 255 255 255;
   --panel2: 250 250 250;
+
+  /* Text */
   --text: 9 9 11;             /* zinc-950 */
   --muted: 82 82 91;          /* zinc-600 */
   --muted2: 113 113 122;      /* zinc-500 */
+
+  /* Borders */
   --border: 228 228 231;      /* zinc-200 */
+  --border2: 212 212 216;     /* zinc-300 */
   --hairline: 243 244 246;    /* gray-100 */
 
+  /* Brand */
   --brand: 20 184 166;        /* teal-500 */
   --brand2: 59 130 246;       /* blue-500 */
   --accent: 244 63 94;        /* rose-500 */
 
+  /* Shadows */
+  --shadow-xs: 0 1px 1px rgb(0 0 0 / 0.04);
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
-  --shadow-md: 0 12px 30px rgb(0 0 0 / 0.10);
-  --shadow-lg: 0 25px 60px rgb(0 0 0 / 0.14);
+  --shadow-md: 0 14px 34px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 26px 70px rgb(0 0 0 / 0.14);
   --shadow-glow: 0 0 0 6px rgb(var(--brand) / 0.14);
 
+  /* Radius */
   --r-sm: 14px;
   --r-md: 18px;
   --r-lg: 26px;
   --r-xl: 34px;
 
+  /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-1: 160ms;
   --dur-2: 260ms;
   --dur-3: 420ms;
 
+  /* Layout */
   --container: 72rem; /* 1152px ~ max-w-6xl */
 }
+
+/* ------------------------------ Base ------------------------------------- */
 
 html, body { height: 100%; }
 
@@ -56,9 +71,18 @@ body {
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
 }
 
+/* Links */
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* Images */
+img { max-width: 100%; height: auto; }
+
 /* ------------------------------ Layout ----------------------------------- */
+
 .nicor-container {
   margin-left: auto;
   margin-right: auto;
@@ -67,7 +91,20 @@ html { scroll-behavior: smooth; }
   max-width: var(--container);
 }
 
-/* ------------------------------ Text ------------------------------------- */
+/* Section spacing helper (less manual padding everywhere) */
+.nicor-section {
+  padding-top: clamp(2.5rem, 5vw, 4.25rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.25rem);
+}
+
+/* Soft page divider */
+.nicor-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(var(--border)), transparent);
+}
+
+/* ------------------------------ Typography -------------------------------- */
+
 .nicor-title {
   font-weight: 650;
   font-size: clamp(2.1rem, 3.8vw, 3.6rem);
@@ -82,34 +119,84 @@ html { scroll-behavior: smooth; }
   line-height: 1.15;
 }
 
+.nicor-h3 {
+  font-weight: 650;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
 .nicor-p {
   color: rgb(var(--muted));
-  line-height: 1.6;
+  line-height: 1.65;
   font-size: 1rem;
 }
 @media (min-width: 768px) {
-  .nicor-p { font-size: 1.125rem; }
+  .nicor-p { font-size: 1.0625rem; }
+}
+
+.nicor-kicker {
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgb(var(--muted2));
+}
+
+/* Gradient text */
+.nicor-gradient-text {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--text)) 0%,
+    rgb(var(--text) / 0.72) 28%,
+    rgb(var(--brand2)) 70%,
+    rgb(var(--brand)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* ------------------------------ Surfaces --------------------------------- */
+
+/* Missing helper used in JSX */
+.nicor-border { border-color: rgb(var(--border)); }
+
 .nicor-card {
   border-radius: 24px;
   border: 1px solid rgb(var(--border));
   background: rgb(var(--panel));
+  box-shadow: var(--shadow-xs);
+}
+
+/* Less “rectangle in rectangle”: softer border + subtle inner highlight */
+.nicor-card-soft {
+  border-radius: 28px;
+  border: 1px solid rgb(var(--border) / 0.85);
+  background: linear-gradient(180deg, rgb(var(--panel)), rgb(var(--panel2)));
   box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.nicor-card-soft::after{
+  content:"";
+  position:absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events:none;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .9);
+  opacity: .7;
 }
 
 .nicor-glass {
   border-radius: 24px;
   border: 1px solid rgb(var(--border) / 0.85);
-  background: linear-gradient(180deg, rgb(var(--panel) / 0.78), rgb(var(--panel) / 0.60));
+  background: linear-gradient(180deg, rgb(var(--panel) / 0.82), rgb(var(--panel) / 0.62));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
 .nicor-card-premium {
   border-radius: var(--r-xl);
-  border: 1px solid rgb(var(--border) / 0.92);
+  border: 1px solid rgb(var(--border) / 0.90);
   background:
     radial-gradient(900px 500px at 10% 10%, rgb(var(--brand) / 0.12), transparent 55%),
     radial-gradient(700px 420px at 90% 10%, rgb(var(--brand2) / 0.10), transparent 55%),
@@ -123,13 +210,21 @@ html { scroll-behavior: smooth; }
   content: "";
   position: absolute;
   inset: -40%;
-  background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.6), transparent 45%);
+  background: radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.62), transparent 45%);
   transform: rotate(12deg);
-  opacity: 0.22;
+  opacity: 0.20;
   pointer-events: none;
 }
 
-/* ------------------------------ Chips ------------------------------------ */
+/* Soft “panel” (useful for FAQ blocks without heavy borders) */
+.nicor-panel {
+  border-radius: 26px;
+  background: rgb(var(--panel));
+  box-shadow: var(--shadow-sm);
+}
+
+/* ------------------------------ Chips / Badges --------------------------- */
+
 .nicor-chip {
   display: inline-flex;
   align-items: center;
@@ -144,7 +239,21 @@ html { scroll-behavior: smooth; }
   -webkit-backdrop-filter: blur(12px);
 }
 
+.nicor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  border: 1px solid rgb(var(--border));
+  color: rgb(var(--muted));
+  background: rgb(var(--panel));
+}
+
 /* ------------------------------ Buttons ---------------------------------- */
+
+/* Base (can be used explicitly, but variants below also inherit base now) */
 .nicor-btn {
   display: inline-flex;
   align-items: center;
@@ -162,15 +271,38 @@ html { scroll-behavior: smooth; }
     color var(--dur-2) var(--ease-out),
     filter var(--dur-2) var(--ease-out);
 }
-
 .nicor-btn:active { transform: translateY(1px) scale(0.99); }
+
+/* Make button variants include base styling automatically */
+.nicor-btn-primary,
+.nicor-btn-ghost,
+.nicor-btn-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-weight: 600;
+  user-select: none;
+  border-radius: var(--r-md);
+  padding: .82rem 1.15rem;
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    background var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    filter var(--dur-2) var(--ease-out);
+}
+.nicor-btn-primary:active,
+.nicor-btn-ghost:active,
+.nicor-btn-brand:active { transform: translateY(1px) scale(0.99); }
 
 .nicor-btn-primary {
   color: white;
   background: linear-gradient(
     135deg,
     rgb(var(--text)) 0%,
-    rgb(var(--text) / 0.90) 55%,
+    rgb(var(--text) / 0.92) 55%,
     rgb(var(--brand2) / 0.85) 100%
   );
   box-shadow: 0 18px 50px rgb(0 0 0 / 0.16);
@@ -179,7 +311,7 @@ html { scroll-behavior: smooth; }
 
 .nicor-btn-ghost {
   color: rgb(var(--text));
-  background: rgb(var(--panel) / 0.55);
+  background: rgb(var(--panel) / 0.60);
   border: 1px solid rgb(var(--border));
 }
 .nicor-btn-ghost:hover { background: rgb(var(--panel)); box-shadow: var(--shadow-sm); }
@@ -191,7 +323,11 @@ html { scroll-behavior: smooth; }
 }
 .nicor-btn-brand:hover { filter: brightness(1.05); }
 
+/* Small button */
+.nicor-btn-sm { padding: .58rem .9rem; border-radius: 14px; font-size: .9rem; }
+
 /* ------------------------------ Inputs ----------------------------------- */
+
 .nicor-input {
   width: 100%;
   height: 3rem;
@@ -211,18 +347,24 @@ html { scroll-behavior: smooth; }
   border-color: rgb(var(--brand) / 0.55);
 }
 
-/* ------------------------------ Helpers ---------------------------------- */
-.nicor-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgb(var(--border)), transparent);
+/* Textarea */
+.nicor-textarea {
+  width: 100%;
+  min-height: 120px;
+  border-radius: var(--r-md);
+  border: 1px solid rgb(var(--border));
+  padding: .9rem 1rem;
+  background: rgb(var(--panel));
+  color: rgb(var(--text));
+  resize: vertical;
+}
+.nicor-textarea::placeholder { color: rgb(var(--muted2)); }
+.nicor-textarea:focus-visible {
+  box-shadow: 0 0 0 5px rgb(var(--brand) / 0.16);
+  border-color: rgb(var(--brand) / 0.55);
 }
 
-.nicor-gradient-text {
-  background: linear-gradient(135deg, rgb(var(--text)) 0%, rgb(var(--text) / 0.72) 30%, rgb(var(--brand2)) 70%, rgb(var(--brand)) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+/* ------------------------------ Helpers / Effects ------------------------ */
 
 .nicor-lift {
   transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
@@ -232,6 +374,10 @@ html { scroll-behavior: smooth; }
 .nicor-ring-hover { transition: box-shadow var(--dur-2) var(--ease-out); }
 .nicor-ring-hover:hover { box-shadow: 0 0 0 6px rgb(var(--brand) / 0.12); }
 
+/* Subtle hover glow (use on big hero cards) */
+.nicor-glow-hover { transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+.nicor-glow-hover:hover { box-shadow: 0 0 0 8px rgb(var(--brand2) / .10), var(--shadow-md); transform: translateY(-1px); }
+
 /* Noise overlay */
 .nicor-noise { position: relative; isolation: isolate; }
 .nicor-noise::before {
@@ -240,13 +386,43 @@ html { scroll-behavior: smooth; }
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.06;
+  opacity: 0.055;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }
 
-/* Scrollbar */
+/* Nice “thin border” without nested rectangles */
+.nicor-hairline {
+  border: 1px solid rgb(var(--hairline));
+}
+
+/* ------------------------------ Pricing table helpers -------------------- */
+/* Use these for “цены/позиции” blocks so it doesn’t look like Excel */
+
+.nicor-price-card {
+  border-radius: 28px;
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--panel));
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.nicor-price-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  padding: .95rem 1.1rem;
+  border-top: 1px solid rgb(var(--hairline));
+}
+.nicor-price-row:first-child { border-top: none; }
+
+.nicor-price-name { color: rgb(var(--text)); font-weight: 520; }
+.nicor-price-note { color: rgb(var(--muted2)); font-size: .8rem; margin-top: .25rem; }
+.nicor-price-value { font-weight: 650; color: rgb(var(--text)); white-space: nowrap; }
+
+/* ------------------------------ Scrollbar -------------------------------- */
+
 *::-webkit-scrollbar { width: 12px; height: 12px; }
 *::-webkit-scrollbar-track { background: rgb(var(--bg)); }
 *::-webkit-scrollbar-thumb {
@@ -255,9 +431,33 @@ html { scroll-behavior: smooth; }
   border-radius: 999px;
 }
 
-/* Animations */
+/* ------------------------------ Animations -------------------------------- */
+
 @keyframes nicor-fade-up {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .nicor-animate-in { animation: nicor-fade-up var(--dur-3) var(--ease-out) both; }
+
+/* Gentle shimmer (optional, for “coming soon” placeholders) */
+@keyframes nicor-shimmer {
+  0% { transform: translateX(-30%); }
+  100% { transform: translateX(130%); }
+}
+.nicor-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgb(var(--panel2));
+  border: 1px solid rgb(var(--border));
+  border-radius: 18px;
+}
+.nicor-skeleton::after{
+  content:"";
+  position:absolute;
+  inset:-40% 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / .55), transparent);
+  transform: translateX(-30%);
+  animation: nicor-shimmer 1.4s var(--ease-out) infinite;
+  opacity: .6;
+}
