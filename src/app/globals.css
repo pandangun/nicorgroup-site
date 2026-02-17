@@ -461,3 +461,33 @@ img { max-width: 100%; height: auto; }
   animation: nicor-shimmer 1.4s var(--ease-out) infinite;
   opacity: .6;
 }
+@keyframes nav-shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes nav-glow {
+  0% { filter: blur(14px) opacity(.45); transform: translateY(0px); }
+  50% { filter: blur(18px) opacity(.65); transform: translateY(-1px); }
+  100% { filter: blur(14px) opacity(.45); transform: translateY(0px); }
+}
+/* на случай, если юзер не любит анимации */
+@media (prefers-reduced-motion: reduce) {
+  .nav-animated,
+  .nav-glow {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Header menu animations used in Header.tsx */
+@keyframes nicorShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes nicorGlow {
+  0% { filter: blur(14px) opacity(.45); transform: translateY(0px); }
+  50% { filter: blur(18px) opacity(.65); transform: translateY(-1px); }
+  100% { filter: blur(14px) opacity(.45); transform: translateY(0px); }
+}
