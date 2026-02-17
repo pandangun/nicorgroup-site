@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="ru" className="scroll-smooth">
-      <body className="min-h-screen bg-white text-zinc-900 antialiased">
+      <body className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">
         {/* Premium sticky header with animated nav + active state */}
         <Header />
 
@@ -23,10 +23,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* subtle background polish across all pages */}
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(1100px_520px_at_18%_8%,rgba(20,184,166,0.08),transparent_60%),radial-gradient(1000px_520px_at_86%_10%,rgba(59,130,246,0.08),transparent_60%),radial-gradient(900px_520px_at_45%_92%,rgba(244,63,94,0.06),transparent_62%)]" />
           {children}
+
+          {/* Mobile bottom-safe spacer so bar never covers CTA/footer */}
+          <div className="h-20 md:hidden" />
         </main>
 
         {/* Footer */}
-        <footer className="border-t bg-white">
+        <footer className="border-t nicor-border bg-white">
           <div className="mx-auto max-w-6xl px-4 py-10">
             <div className="grid gap-8 md:grid-cols-3">
               <div>
@@ -68,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
 
             {/* tiny “trust” line */}
-            <div className="mt-10 flex flex-col gap-2 border-t pt-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-10 flex flex-col gap-2 border-t nicor-border pt-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
               <div>Договор • Гарантия • Чистота на объекте</div>
               <div>
                 <span className="text-zinc-400">Сделано аккуратно.</span>
@@ -77,25 +80,57 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* Mobile bar */}
-          <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-200/70 bg-white/90 backdrop-blur md:hidden">
-            <div className="mx-auto grid max-w-6xl grid-cols-2 gap-2 px-4 py-2">
+          <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
+            {/* backdrop + hairline */}
+            <div className="absolute inset-0 border-t border-zinc-200/70 bg-white/92 backdrop-blur-md" />
+
+            {/* subtle glow */}
+            <div className="pointer-events-none absolute inset-0 opacity-70 blur-xl [background:radial-gradient(70%_120%_at_25%_30%,rgba(59,130,246,0.14),transparent_60%),radial-gradient(70%_120%_at_75%_30%,rgba(20,184,166,0.12),transparent_60%),radial-gradient(80%_140%_at_50%_110%,rgba(244,63,94,0.10),transparent_60%)]" />
+
+            <div className="relative mx-auto grid max-w-6xl grid-cols-2 gap-3 px-4 py-3">
               <a
                 href="tel:+79990000000"
-                className="rounded-xl border border-zinc-200 bg-white py-3 text-center text-sm font-semibold shadow-sm active:scale-[0.99]"
+                className="
+                  flex items-center justify-center
+                  rounded-2xl
+                  border border-zinc-200
+                  bg-white
+                  py-3
+                  text-sm font-semibold
+                  text-zinc-900
+                  shadow-sm
+                  active:scale-[0.98]
+                  transition
+                "
               >
                 Позвонить
               </a>
+
               <a
                 href="/contacts#lead"
-                className="rounded-xl bg-zinc-900 py-3 text-center text-sm font-semibold text-white shadow-sm active:scale-[0.99]"
+                className="
+                  relative
+                  flex items-center justify-center
+                  rounded-2xl
+                  py-3
+                  text-sm font-semibold
+                  text-white
+                  shadow-md
+                  active:scale-[0.98]
+                  transition
+                  overflow-hidden
+                  bg-gradient-to-r
+                  from-zinc-900
+                  via-zinc-800
+                  to-zinc-900
+                "
               >
+                {/* tiny shimmer, very subtle */}
+                <span className="pointer-events-none absolute inset-0 opacity-40 [background:linear-gradient(120deg,transparent,rgba(255,255,255,0.22),transparent)] translate-x-[-60%] animate-[nicor-shimmer_2.8s_var(--ease-out)_infinite]" />
                 Заявка
               </a>
             </div>
           </div>
-
-          {/* Spacer so mobile bar doesn't cover content */}
-          <div className="h-16 md:hidden" />
         </footer>
       </body>
     </html>
