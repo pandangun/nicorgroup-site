@@ -20,29 +20,46 @@ function isActivePath(pathname: string, href: string) {
 
 type PillRect = { left: number; width: number };
 
-function usePillTracker() {
+function useRafPillTracker() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
   const [hoverRect, setHoverRect] = useState<PillRect | null>(null);
 
-  const setFromEl = (el: HTMLElement | null) => {
+  const computeRect = (el: HTMLElement) => {
     const wrap = wrapRef.current;
-    if (!wrap || !el) return;
-
+    if (!wrap) return null;
     const wrapBox = wrap.getBoundingClientRect();
     const elBox = el.getBoundingClientRect();
+    return { left: elBox.left - wrapBox.left, width: elBox.width };
+  };
 
-    setHoverRect({
-      left: elBox.left - wrapBox.left,
-      width: elBox.width,
+  const setFromEl = (el: HTMLElement | null) => {
+    if (!el) return;
+    const next = computeRect(el);
+    if (!next) return;
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      setHoverRect(next);
     });
   };
 
-  const clear = () => setHoverRect(null);
+  const clear = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = null;
+    setHoverRect(null);
+  };
 
   useEffect(() => {
     const onResize = () => setHoverRect((r) => (r ? { ...r } : r));
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return { wrapRef, hoverRect, setFromEl, clear };
@@ -57,12 +74,12 @@ export function Header() {
     return found?.href ?? null;
   }, [pathname]);
 
-  // Close drawer on route change
+  // close drawer on route change
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  // Close on ESC
+  // ESC to close
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
@@ -71,8 +88,17 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Desktop hover-pill tracking
-  const { wrapRef, hoverRect, setFromEl, clear } = usePillTracker();
+  // lock body scroll when drawer open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  const { wrapRef, hoverRect, setFromEl, clear } = useRafPillTracker();
 
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/75 backdrop-blur-md">
@@ -117,7 +143,7 @@ export function Header() {
               }}
             />
 
-            {/* hover pill */}
+            {/* hover pill (raf-throttled for zero jitter) */}
             <AnimatePresence>
               {hoverRect && (
                 <motion.div
@@ -155,6 +181,7 @@ export function Header() {
 
             {NAV.map((item) => {
               const active = isActivePath(pathname, item.href);
+
               return (
                 <Link
                   key={item.href}
@@ -189,6 +216,7 @@ export function Header() {
             <PhoneCall className="h-4 w-4" />
             +7 (999) 000-00-00
           </a>
+
           <Link
             href="/contacts#lead"
             className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800"
@@ -201,7 +229,7 @@ export function Header() {
         <div className="flex items-center gap-2 md:hidden">
           <Link
             href="/contacts#lead"
-            className="rounded-full bg-zinc-900 px-3 py-2 text-xs font-semibold text-white shadow-sm active:scale-[0.99]"
+            className="rounded-full bg-zinc-900 px-3 py-2 text-xs font-semibold !text-white shadow-sm hover:bg-zinc-800 active:scale-[0.99] leading-none"
           >
             Заявка
           </Link>
@@ -250,6 +278,7 @@ export function Header() {
               </div>
 
               <div className="p-4">
+                {/* Nav list */}
                 <div className="rounded-[22px] border border-zinc-200 bg-white/70 p-2 shadow-sm">
                   {NAV.map((item) => {
                     const active = isActivePath(pathname, item.href);
@@ -262,7 +291,7 @@ export function Header() {
                         onClick={() => setOpen(false)}
                       >
                         <div className="relative rounded-[18px] px-4 py-3">
-                          {/* active row */}
+                          {/* Active row — no "label", just premium highlight */}
                           {active && (
                             <div
                               className="absolute inset-0 rounded-[18px]"
@@ -278,11 +307,23 @@ export function Header() {
                           )}
 
                           <div className="relative flex items-center justify-between">
-                            <span className={active ? "font-semibold text-zinc-900" : "text-zinc-800"}>
+                            <span
+                              className={
+                                active
+                                  ? "font-semibold text-zinc-900"
+                                  : "font-semibold text-zinc-800"
+                              }
+                            >
                               {item.label}
                             </span>
-                            <span className="text-xs text-zinc-500">
-                              {active ? "сейчас" : ""}
+
+                            {/* Tiny dot indicator instead of text */}
+                            <span className="relative inline-flex h-2 w-2 items-center justify-center">
+                              {active ? (
+                                <span className="h-2 w-2 rounded-full bg-zinc-900/70" />
+                              ) : (
+                                <span className="h-2 w-2 rounded-full bg-zinc-300" />
+                              )}
                             </span>
                           </div>
                         </div>
@@ -291,10 +332,11 @@ export function Header() {
                   })}
                 </div>
 
+                {/* Actions */}
                 <div className="mt-4 grid gap-2">
                   <a
                     href="tel:+79990000000"
-                    className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold shadow-sm active:scale-[0.99]"
+                    className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm active:scale-[0.99]"
                   >
                     <PhoneCall className="h-4 w-4" />
                     Позвонить
@@ -303,7 +345,7 @@ export function Header() {
                   <Link
                     href="/contacts#lead"
                     onClick={() => setOpen(false)}
-                    className="inline-flex items-center justify-center rounded-[18px] bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-sm active:scale-[0.99]"
+                    className="inline-flex items-center justify-center rounded-[18px] bg-zinc-900 px-4 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-zinc-800 active:scale-[0.99]"
                   >
                     Рассчитать по фото
                   </Link>
