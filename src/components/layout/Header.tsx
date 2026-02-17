@@ -217,13 +217,13 @@ export function Header() {
             +7 (999) 000-00-00
           </a>
 
-          <Link
+            <Link
             href="/contacts#lead"
-            className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-800"
-          >
+            className="nicor-btn-primary rounded-full !text-white px-4 py-2 text-sm"
+            >
             Расчёт по фото
-          </Link>
-        </div>
+            </Link>
+
 
         {/* Mobile: burger + CTA */}
         <div className="flex items-center gap-2 md:hidden">
