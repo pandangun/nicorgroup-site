@@ -223,7 +223,7 @@ export function Header() {
             >
             Расчёт по фото
             </Link>
-
+        </div>
 
         {/* Mobile: burger + CTA */}
         <div className="flex items-center gap-2 md:hidden">
