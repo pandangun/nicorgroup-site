@@ -21,7 +21,8 @@ function HeroIllustration() {
             Быстрый расчёт по заявке
           </div>
           <div className="mt-1 text-sm text-zinc-600">
-            Пришлите фото и короткое описание задачи. Ответим диапазоном стоимости и предложим ближайшее окно.
+            Пришлите фото и короткое описание задачи. Ответим диапазоном стоимости
+            и предложим ближайшее окно.
           </div>
         </div>
 
@@ -91,16 +92,69 @@ function HeroIllustration() {
   );
 }
 
+/** Универсальный блок "картинка + заголовок поверх" (мобилка) */
+function ImageTitleCard({
+  src,
+  alt,
+  title,
+}: {
+  src: string;
+  alt: string;
+  title: string;
+}) {
+  return (
+    <div className="nicor-photo">
+      <div className="relative aspect-[16/10] md:aspect-[4/3]">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 420px"
+          className="object-cover"
+        />
+        {/* overlay title */}
+        <div className="absolute inset-x-0 bottom-0 p-4">
+          <div className="inline-flex max-w-[92%] rounded-[18px] border border-white/30 bg-black/35 px-4 py-2 text-[13px] font-semibold text-white backdrop-blur-md shadow-sm">
+            {title}
+          </div>
+        </div>
+
+        {/* subtle top vignette for readability */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.20),transparent_45%,rgba(0,0,0,0.10))]" />
+      </div>
+    </div>
+  );
+}
+
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      {/* BACKGROUND: вместо фотки — премиальный градиент */}
+      {/* BACKGROUND: градиент + tech grid */}
       <div className="pointer-events-none absolute inset-0">
-        {/* базовый светлый градиент */}
-        <div className="absolute inset-0 bg-[radial-gradient(1100px_520px_at_18%_12%,rgba(20,184,166,0.14),transparent_60%),radial-gradient(1000px_520px_at_88%_18%,rgba(59,130,246,0.12),transparent_58%),linear-gradient(180deg,rgba(248,250,252,1)_0%,rgba(255,255,255,1)_40%,rgba(248,250,252,1)_100%)]" />
+        {/* базовый градиент */}
+        <div className="absolute inset-0 bg-[radial-gradient(1100px_540px_at_18%_12%,rgba(20,184,166,0.16),transparent_60%),radial-gradient(1000px_540px_at_88%_18%,rgba(59,130,246,0.14),transparent_58%),linear-gradient(180deg,rgba(248,250,252,1)_0%,rgba(255,255,255,1)_42%,rgba(248,250,252,1)_100%)]" />
 
-        {/* тонкая текстура/виньетка для “дороговизны” */}
-        <div className="absolute inset-0 bg-[radial-gradient(900px_520px_at_50%_20%,rgba(0,0,0,0.06),transparent_55%),linear-gradient(90deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72),rgba(255,255,255,0.56))] opacity-[0.55]" />
+        {/* тех. сетка: тонкие линии + крупные клетки */}
+        <div
+          className="absolute inset-0 opacity-[0.18]"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(15,23,42,.10) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(15,23,42,.10) 1px, transparent 1px),
+              linear-gradient(to right, rgba(15,23,42,.14) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(15,23,42,.14) 1px, transparent 1px)
+            `,
+            backgroundSize: "18px 18px, 18px 18px, 90px 90px, 90px 90px",
+            backgroundPosition: "0 0, 0 0, 0 0, 0 0",
+            maskImage:
+              "radial-gradient(900px 520px at 50% 20%, black 55%, transparent 80%)",
+            WebkitMaskImage:
+              "radial-gradient(900px 520px at 50% 20%, black 55%, transparent 80%)",
+          }}
+        />
+
+        {/* мягкая виньетка */}
+        <div className="absolute inset-0 opacity-[0.55] bg-[radial-gradient(900px_520px_at_50%_16%,rgba(0,0,0,0.06),transparent_55%)]" />
 
         {/* низ — мягкая подложка */}
         <div className="absolute inset-x-0 bottom-0 h-44 bg-[linear-gradient(180deg,transparent,rgba(248,250,252,1))]" />
@@ -130,14 +184,14 @@ export function Hero() {
             <span className="nicor-gradient-text">под ключ</span>
           </h1>
 
-          {/* Главный абзац в собственной рамке (не “стандартные карточки”) */}
+          {/* Главный абзац */}
           <div className="mt-7 flex justify-center nicor-animate-in nicor-delay-2">
             <div className="relative w-full max-w-[860px] rounded-[26px] border border-zinc-200/80 bg-white/70 px-6 py-5 backdrop-blur-md shadow-sm">
               <div className="pointer-events-none absolute inset-0 rounded-[26px] bg-[linear-gradient(135deg,rgba(20,184,166,0.10),transparent_45%,rgba(59,130,246,0.08))]" />
               <p className="relative text-[15px] md:text-[16px] leading-relaxed text-zinc-700">
                 Мы делаем инженерные системы так, чтобы они работали стабильно годами:
-                правильно подбираем решения, аккуратно монтируем, проверяем ключевые узлы
-                и фиксируем смету до начала работ — без сюрпризов по ходу проекта.
+                подбираем решения, аккуратно монтируем, проверяем ключевые узлы и
+                фиксируем смету до начала работ — без сюрпризов по ходу проекта.
               </p>
             </div>
           </div>
@@ -156,11 +210,26 @@ export function Hero() {
           <div className="mt-12 grid gap-6">
             {/* Block 1 */}
             <div className="nicor-card-soft p-6 md:p-8 nicor-animate-in nicor-delay-3">
-              <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
+              {/* Mobile layout: image(title overlay) -> text */}
+              <div className="grid gap-6 md:hidden">
+                <ImageTitleCard
+                  src="/images/main_1.png"
+                  alt="Аккуратная инженерная система"
+                  title="Инженерные системы, продуманные до результата"
+                />
+                <p className="nicor-p">
+                  «НИКОР» выполняет сантехнические и отопительные работы любой сложности
+                  в Санкт-Петербурге и Ленинградской области. Мы проектируем системы с нуля,
+                  модернизируем существующие решения, монтируем отопление и тёплые полы,
+                  устанавливаем водоснабжение и канализацию в квартирах, частных домах и
+                  коммерческих объектах.
+                </p>
+              </div>
+
+              {/* Desktop layout: text + image side-by-side */}
+              <div className="hidden md:grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
                 <div>
-                  <div className="nicor-h3">
-                    Инженерные системы, продуманные до результата
-                  </div>
+                  <div className="nicor-h3">Инженерные системы, продуманные до результата</div>
                   <p className="mt-3 nicor-p">
                     «НИКОР» выполняет сантехнические и отопительные работы любой сложности
                     в Санкт-Петербурге и Ленинградской области. Мы проектируем системы с нуля,
@@ -186,8 +255,23 @@ export function Hero() {
 
             {/* Block 2 */}
             <div className="nicor-card-soft p-6 md:p-8 nicor-animate-in nicor-delay-4">
-              <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
-                <div className="order-2 md:order-1 nicor-photo">
+              {/* Mobile */}
+              <div className="grid gap-6 md:hidden">
+                <ImageTitleCard
+                  src="/images/main_2.png"
+                  alt="Монтаж и контроль качества"
+                  title="Контроль этапов и внимание к деталям"
+                />
+                <p className="nicor-p">
+                  Работа начинается с анализа условий и точного расчёта. Мы формируем прозрачную
+                  смету и фиксируем стоимость до старта работ. Монтаж выполняется по продуманной
+                  схеме с проверкой ключевых соединений и соблюдением технологической последовательности.
+                </p>
+              </div>
+
+              {/* Desktop */}
+              <div className="hidden md:grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+                <div className="nicor-photo">
                   <div className="relative aspect-[4/3]">
                     <Image
                       src="/images/main_2.png"
@@ -199,7 +283,7 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="order-1 md:order-2">
+                <div>
                   <div className="nicor-h3">Контроль этапов и внимание к деталям</div>
                   <p className="mt-3 nicor-p">
                     Работа начинается с анализа условий и точного расчёта. Мы формируем прозрачную
@@ -212,7 +296,22 @@ export function Hero() {
 
             {/* Block 3 */}
             <div className="nicor-card-soft p-6 md:p-8 nicor-animate-in nicor-delay-5">
-              <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
+              {/* Mobile */}
+              <div className="grid gap-6 md:hidden">
+                <ImageTitleCard
+                  src="/images/main_3.png"
+                  alt="Консультация и согласование работ"
+                  title="Понятный старт и согласованные сроки"
+                />
+                <p className="nicor-p">
+                  Для предварительной оценки достаточно отправить фото и короткое описание задачи.
+                  В большинстве случаев этого хватает, чтобы определить объём работ и ориентировочные сроки.
+                  Если требуется детальная оценка, согласуем выезд и подготовим расчёт с конкретной датой старта.
+                </p>
+              </div>
+
+              {/* Desktop */}
+              <div className="hidden md:grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:items-center">
                 <div>
                   <div className="nicor-h3">Понятный старт и согласованные сроки</div>
                   <p className="mt-3 nicor-p">
