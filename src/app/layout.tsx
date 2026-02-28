@@ -2,6 +2,22 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+import { Manrope, Space_Grotesk } from "next/font/google";
+
+/** Fonts -> CSS variables used in globals.css:
+ *  --font-sans, --font-display
+ */
+const fontSans = Manrope({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const fontDisplay = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nicorgroup-site.vercel.app"),
@@ -39,7 +55,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const year = new Date().getFullYear();
 
   return (
-    <html lang="ru" className="scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="ru"
+      className={[
+        "scroll-smooth",
+        "antialiased",
+        fontSans.variable,
+        fontDisplay.variable,
+      ].join(" ")}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] antialiased">
         {/* Sticky premium header (desktop nav + mobile burger lives inside Header) */}
         <Header />
@@ -115,7 +140,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="text-sm">
                 <div className="font-semibold">Связь</div>
                 <div className="mt-2 grid gap-2 text-zinc-600">
-                  <a href="tel:+79920444258" className="hover:text-zinc-900" aria-label="Позвонить в НИКОР">
+                  <a
+                    href="tel:+79920444258"
+                    className="hover:text-zinc-900"
+                    aria-label="Позвонить в НИКОР"
+                  >
                     +7 (992) 044-42-58
                   </a>
                   <div>СПб и область</div>
