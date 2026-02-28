@@ -1,15 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, PhoneCall } from "lucide-react";
 
+const PHONE_DISPLAY = "+7 900 630-09-74";
+const PHONE_HREF = "+79006300974";
+
 const NAV = [
   { href: "/services", label: "Услуги" },
   { href: "/prices", label: "Цены" },
   { href: "/cases", label: "Кейсы" },
+  { href: "/articles", label: "Статьи" },
   { href: "/contacts", label: "Контакты" },
 ];
 
@@ -39,9 +44,7 @@ function useRafPillTracker() {
     if (!next) return;
 
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      setHoverRect(next);
-    });
+    rafRef.current = requestAnimationFrame(() => setHoverRect(next));
   };
 
   const clear = () => {
@@ -75,9 +78,7 @@ export function Header() {
   }, [pathname]);
 
   // close drawer on route change
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  useEffect(() => setOpen(false), [pathname]);
 
   // ESC to close
   useEffect(() => {
@@ -105,22 +106,30 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="relative grid h-10 w-10 place-items-center rounded-xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
-            <div
-              className="absolute inset-0 opacity-70"
-              style={{
-                backgroundImage:
-                  "linear-gradient(120deg, rgba(99,102,241,.12), rgba(16,185,129,.10), rgba(236,72,153,.08), rgba(99,102,241,.12))",
-                backgroundSize: "300% 300%",
-                animation: "nicorShimmer 9s ease infinite",
-              }}
+        
+          <div
+            className="nicor-logo-wrap"
+            style={
+              {
+                ["--logo-scale" as any]: 1.35,
+                ["--logo-x" as any]: "0px",
+                ["--logo-y" as any]: "0px",
+              } as React.CSSProperties
+            }
+          >
+            <Image
+              src="/images/logo-v2.png"
+              alt="НИКОР"
+              fill
+              sizes="40px"
+              priority
+              className="nicor-logo-img"
             />
-            <span className="relative font-black tracking-wide">Н</span>
           </div>
-
+          
           <div className="leading-tight">
-            <div className="font-semibold">НИКОР</div>
-            <div className="text-xs text-zinc-500">Сантехника • СПб и область</div>
+            <div className="nicor-brand">НИКОР-ГРУПП</div>
+            <div className="text-xs text-zinc-500">Сантехника • Установка • Ремонт</div>
           </div>
         </Link>
 
@@ -128,7 +137,7 @@ export function Header() {
         <nav className="hidden md:flex">
           <div
             ref={wrapRef}
-            onMouseLeave={() => clear()}
+            onMouseLeave={clear}
             className="relative flex items-center gap-1 rounded-full border border-zinc-200 bg-white/60 p-1 shadow-sm"
           >
             {/* glow under capsule */}
@@ -143,7 +152,7 @@ export function Header() {
               }}
             />
 
-            {/* hover pill (raf-throttled for zero jitter) */}
+            {/* hover pill */}
             <AnimatePresence>
               {hoverRect && (
                 <motion.div
@@ -172,8 +181,7 @@ export function Header() {
                     "linear-gradient(120deg, rgba(99,102,241,.28), rgba(16,185,129,.20), rgba(236,72,153,.16), rgba(99,102,241,.28))",
                   backgroundSize: "300% 300%",
                   animation: "nicorShimmer 5.5s ease infinite",
-                  boxShadow:
-                    "0 10px 22px rgba(0,0,0,.06), inset 0 0 0 1px rgba(0,0,0,.10)",
+                  boxShadow: "0 10px 22px rgba(0,0,0,.06), inset 0 0 0 1px rgba(0,0,0,.10)",
                 }}
                 transition={{ type: "spring", stiffness: 520, damping: 34 }}
               />
@@ -184,7 +192,7 @@ export function Header() {
 
               return (
                 <Link
-                  key={item.href}
+                  key={`nav-${item.href}-${item.label}`}
                   href={item.href}
                   onMouseEnter={(e) => setFromEl(e.currentTarget)}
                   className="relative"
@@ -210,22 +218,22 @@ export function Header() {
         {/* Right (desktop) */}
         <div className="hidden items-center gap-2 md:flex">
           <a
-            href="tel:+79990000000"
+            href={`tel:${PHONE_HREF}`}
             className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold shadow-sm transition hover:shadow"
           >
             <PhoneCall className="h-4 w-4" />
-            +7 (999) 000-00-00
+            {PHONE_DISPLAY}
           </a>
 
-            <Link
+          <Link
             href="/contacts#lead"
             className="nicor-btn-primary rounded-full !text-white px-4 py-2 text-sm"
-            >
-            Расчёт по фото
-            </Link>
+          >
+            Оставить заявку
+          </Link>
         </div>
 
-        {/* Mobile: burger + CTA */}
+        {/* Mobile */}
         <div className="flex items-center gap-2 md:hidden">
           <Link
             href="/contacts#lead"
@@ -285,13 +293,12 @@ export function Header() {
 
                     return (
                       <Link
-                        key={item.href}
+                        key={`nav-mobile-${item.href}-${item.label}`}
                         href={item.href}
                         className="block"
                         onClick={() => setOpen(false)}
                       >
                         <div className="relative rounded-[18px] px-4 py-3">
-                          {/* Active row — no "label", just premium highlight */}
                           {active && (
                             <div
                               className="absolute inset-0 rounded-[18px]"
@@ -307,17 +314,10 @@ export function Header() {
                           )}
 
                           <div className="relative flex items-center justify-between">
-                            <span
-                              className={
-                                active
-                                  ? "font-semibold text-zinc-900"
-                                  : "font-semibold text-zinc-800"
-                              }
-                            >
+                            <span className={active ? "font-semibold text-zinc-900" : "font-semibold text-zinc-800"}>
                               {item.label}
                             </span>
 
-                            {/* Tiny dot indicator instead of text */}
                             <span className="relative inline-flex h-2 w-2 items-center justify-center">
                               {active ? (
                                 <span className="h-2 w-2 rounded-full bg-zinc-900/70" />
@@ -335,7 +335,7 @@ export function Header() {
                 {/* Actions */}
                 <div className="mt-4 grid gap-2">
                   <a
-                    href="tel:+79990000000"
+                    href={`tel:${PHONE_HREF}`}
                     className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-zinc-200 bg-white px-4 py-3 text-sm font-semibold text-zinc-900 shadow-sm active:scale-[0.99]"
                   >
                     <PhoneCall className="h-4 w-4" />
@@ -351,9 +351,7 @@ export function Header() {
                   </Link>
                 </div>
 
-                <div className="mt-4 text-xs text-zinc-500">
-                  СПб и область • Договор • Гарантия
-                </div>
+                <div className="mt-4 text-xs text-zinc-500">СПб и область • Договор • Гарантия</div>
               </div>
             </motion.aside>
           </>

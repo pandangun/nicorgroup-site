@@ -491,3 +491,111 @@ img { max-width: 100%; height: auto; }
   50% { filter: blur(18px) opacity(.65); transform: translateY(-1px); }
   100% { filter: blur(14px) opacity(.45); transform: translateY(0px); }
 }
+
+.nicor-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid rgb(var(--border));
+  background: rgb(var(--panel));
+  box-shadow: var(--shadow-sm);
+}
+
+.nicor-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* unified premium grading */
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,244,229,0.12)),
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,0.14), transparent 55%),
+    radial-gradient(circle at 70% 85%, rgba(0,0,0,0.10), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.06));
+}
+
+/* ------------------------------ Hero Anim Helpers ------------------------- */
+/* Additive only: does not change existing pages unless classes are used */
+
+.nicor-delay-1 { animation-delay: 90ms; }
+.nicor-delay-2 { animation-delay: 180ms; }
+.nicor-delay-3 { animation-delay: 270ms; }
+.nicor-delay-4 { animation-delay: 360ms; }
+.nicor-delay-5 { animation-delay: 450ms; }
+.nicor-delay-6 { animation-delay: 540ms; }
+
+/* optional: smoother on low-end GPUs */
+.nicor-will-change {
+  will-change: transform, opacity;
+}
+
+/* Respect reduced motion: keep your existing rule, extend safely */
+@media (prefers-reduced-motion: reduce) {
+  .nicor-animate-in,
+  .nicor-delay-1,
+  .nicor-delay-2,
+  .nicor-delay-3,
+  .nicor-delay-4,
+  .nicor-delay-5,
+  .nicor-delay-6 {
+    animation: none !important;
+  }
+}
+
+/* ===================== NICOR LOGO (hard-fit) ===================== */
+/* Управление логотипом через CSS-переменные:
+   --logo-scale (масштаб), --logo-x / --logo-y (смещения)
+*/
+.nicor-logo-wrap {
+  --logo-scale: 1.18;
+  --logo-x: 0px;
+  --logo-y: 0px;
+
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  overflow: hidden;
+
+  background: #fff;
+  border: 1px solid rgb(var(--border));
+  box-shadow: var(--shadow-sm);
+}
+
+.nicor-logo-img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  transform: translate(var(--logo-x), var(--logo-y)) scale(var(--logo-scale));
+  transform-origin: 50% 50%;
+}
+
+.nicor-logo-wrap.is-cover .nicor-logo-img {
+  object-fit: cover;
+  --logo-scale: 1.06;
+}
+
+/* ===================== NICOR BRAND TITLE ===================== */
+
+.nicor-brand {
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    120deg,
+    #0f172a,
+    #1e293b,
+    #0f172a
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: nicorBrandShift 6s ease infinite;
+}
+
+@keyframes nicorBrandShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
