@@ -1,8 +1,8 @@
-import "./globals.css";
-import type { Metadata, Viewport } from "next";
-import Link from "next/link";
-import { Header } from "@/components/layout/Header";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import "./globals.css"
+import type { Metadata, Viewport } from "next"
+import Link from "next/link"
+import { Header } from "@/components/layout/Header"
+import { Manrope, Space_Grotesk } from "next/font/google"
 
 /** Fonts -> CSS variables used in globals.css:
  *  --font-sans, --font-display
@@ -11,20 +11,20 @@ const fontSans = Manrope({
   subsets: ["cyrillic", "latin"],
   variable: "--font-sans",
   display: "swap",
-});
+})
 
 const fontDisplay = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-});
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nicorgroup-site.vercel.app"),
   title: "НИКОР — сантехнические работы в СПб и области",
   description:
     "Тёплые полы, отопление, установка сантехники, санузел под ключ. Выезд в день обращения. Гарантия и договор.",
-  applicationName: "НИКОР",
+  applicationName: "НИКОР-ГРУПП",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: "НИКОР — сантехнические работы в СПб и области",
     description:
       "Тёплые полы, отопление, установка сантехники, санузел под ключ. Выезд в день обращения. Гарантия и договор.",
-    siteName: "НИКОР",
+    siteName: "НИКОР-ГРУПП",
   },
   twitter: {
     card: "summary_large_image",
@@ -40,21 +40,21 @@ export const metadata: Metadata = {
     description:
       "Тёплые полы, отопление, установка сантехники, санузел под ключ. Выезд в день обращения. Гарантия и договор.",
   },
-};
+}
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-};
+}
 
-const PHONE_DISPLAY = "+7 900 630-09-74";
-const PHONE_TEL = "+79006300974";
-const EMAIL = "info@nicor-group.ru";
-const ADDRESS = "Санкт-Петербург, пр. Гражданский (демо-адрес)";
+const PHONE_DISPLAY = "+7 900 630-09-74"
+const PHONE_TEL = "+79006300974"
+const EMAIL = "info@nicor-group.ru"
+const ADDRESS = "Санкт-Петербург, пр. Гражданский"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const year = new Date().getFullYear();
+  const year = new Date().getFullYear()
 
   return (
     <html
@@ -101,7 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="grid gap-10 md:grid-cols-3">
               {/* Brand */}
               <div>
-                <div className="font-semibold">НИКОР</div>
+                <div className="font-semibold">НИКОР-ГРУПП</div>
                 <div className="mt-2 text-sm text-zinc-600">
                   Сантехнические работы: тёплые полы, отопление, установка сантехники,
                   санузел под ключ, аварийные выезды. Работаем аккуратно, прозрачно и по договору.
@@ -119,13 +119,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   </span>
                 </div>
 
-                <div className="mt-5 space-y-2 text-sm text-zinc-500">
+                {/* Policies + easter egg */}
+                <div className="mt-5 flex flex-col gap-2 text-sm text-zinc-500">
                   <Link href="/personal-data" className="hover:text-zinc-900 transition">
                     Политика обработки персональных данных
                   </Link>
-                  <Link href="/terms" className="hover:text-zinc-900 transition">
-                    Пользовательское соглашение
-                  </Link>
+
+                  <div className="flex items-baseline gap-2">
+                    <Link href="/terms" className="hover:text-zinc-900 transition">
+                      Пользовательское соглашение
+                    </Link>
+
+                    <Link
+                      href="/game"
+                      className="text-[11px] text-zinc-400 hover:text-zinc-600 transition"
+                      aria-label="Пасхалка: игра"
+                      title="pipe panic"
+                    >
+                      .game
+                    </Link>
+                  </div>
                 </div>
               </div>
 
@@ -153,15 +166,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Contact (air, no “button cards”) */}
               <div className="text-sm">
-                <div className="font-semibold">Связь</div>
-
-                <div className="mt-4 space-y-5 text-sm text-zinc-700">
+                <div className="mt-1 space-y-5 text-sm text-zinc-700">
                   <div>
                     <div className="text-xs uppercase tracking-wide text-zinc-400">Телефон</div>
                     <a
                       href={`tel:${PHONE_TEL}`}
                       className="mt-1 inline-block text-lg font-semibold tracking-[-0.02em] text-zinc-900 hover:opacity-80 transition"
-                      aria-label="Позвонить в НИКОР"
+                      aria-label="Позвонить в НИКОР-ГРУПП"
                     >
                       {PHONE_DISPLAY}
                     </a>
@@ -180,19 +191,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <div>
                     <div className="text-xs uppercase tracking-wide text-zinc-400">Адрес</div>
                     <div className="mt-1 text-base text-zinc-900">{ADDRESS}</div>
-                    <div className="text-xs text-zinc-400">(вымышленный для демо)</div>
                   </div>
-
-                  <div>
-                    <div className="text-xs uppercase tracking-wide text-zinc-400">Реквизиты</div>
-                    <div className="mt-1 text-sm text-zinc-600 leading-relaxed">
-                      ИП Иванов И.И. <br />
-                      ИНН 000000000000 <br />
-                      ОГРНИП 000000000000000
-                    </div>
-                  </div>
-
-                  <div className="text-xs text-zinc-400">© {year} НИКОР</div>
                 </div>
               </div>
             </div>
@@ -200,7 +199,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Trust line */}
             <div className="mt-10 flex flex-col gap-2 border-t border-zinc-200/70 pt-6 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
               <div>Договор • Гарантия • Чистота на объекте</div>
-              <div className="text-zinc-400">Сделано аккуратно.</div>
+              <div className="text-zinc-400">© {year} НИКОР-ГРУПП</div>
             </div>
           </div>
 
@@ -233,5 +232,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </footer>
       </body>
     </html>
-  );
+  )
 }
