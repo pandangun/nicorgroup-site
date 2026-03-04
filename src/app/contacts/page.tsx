@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   Mail,
   Building2,
-  FileText,
   Paperclip,
   CheckCircle2,
 } from "lucide-react";
@@ -28,10 +27,15 @@ const TELEGRAM_LINK = `https://t.me/${TELEGRAM_USERNAME}`;
 const EMAIL = "info@nicor-group.ru";
 const ADDRESS = "Санкт-Петербург, пр. Гражданский, 111";
 const HOURS = "09:00–21:00";
+const MAILTO_LINK = `mailto:${EMAIL}?subject=${encodeURIComponent(
+  "НИКОР — запрос предварительной оценки"
+)}`;
 
 // Яндекс-карта — поменяй координаты на точные
 const YMAPS_EMBED =
   "https://yandex.ru/map-widget/v1/?ll=30.4127%2C60.0349&z=14&pt=30.4127,60.0349,pm2rdm";
+const YANDEX_ROUTE_LINK =
+  "https://yandex.ru/maps/?rtext=~60.0349,30.4127&rtt=auto";
 
 const REQUEST_TYPES = [
   { value: "", label: "Выберите тип обращения (по желанию)" },
@@ -68,11 +72,7 @@ export default function ContactsPage() {
               </span>
             </div>
 
-            <h1 className="mt-4 text-4xl font-semibold tracking-[-0.02em] md:text-5xl">
-              Контакты
-            </h1>
-
-            <p className="mt-3 text-base text-zinc-700 md:text-lg">
+            <p className="mt-4 text-base text-zinc-700 md:text-lg">
               Для предварительной оценки удобнее всего{" "}
               <span className="font-semibold text-zinc-900">
                 прислать фото и короткое описание
@@ -104,7 +104,13 @@ export default function ContactsPage() {
 
               {/* ADDRESS + EMAIL */}
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="nicor-card-soft p-5">
+                <a
+                  href={YANDEX_ROUTE_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="nicor-card-soft block p-5 transition hover:opacity-95"
+                  aria-label="Построить маршрут в Яндекс Картах"
+                >
                   <div className="flex items-center gap-2 text-xs font-semibold text-zinc-600">
                     <Building2 className="h-4 w-4" />
                     Адрес
@@ -113,9 +119,14 @@ export default function ContactsPage() {
                   <div className="mt-1 text-xs text-zinc-500">
                     Офис/точка приёма по договорённости • Выезд по городу и области
                   </div>
-                </div>
+                  <div className="mt-3 text-sm font-semibold text-zinc-900">Построить маршрут</div>
+                </a>
 
-                <div className="nicor-card-soft p-5">
+                <a
+                  href={MAILTO_LINK}
+                  className="nicor-card-soft block p-5 transition hover:opacity-95"
+                  aria-label="Написать на почту НИКОР"
+                >
                   <div className="flex items-center gap-2 text-xs font-semibold text-zinc-600">
                     <Mail className="h-4 w-4" />
                     Почта
@@ -124,18 +135,8 @@ export default function ContactsPage() {
                   <div className="mt-1 text-xs text-zinc-500">
                     Для смет, документов и коммерческих объектов
                   </div>
-
-                  <div className="mt-3">
-                    <a
-                      href={`mailto:${EMAIL}?subject=${encodeURIComponent(
-                        "НИКОР — запрос предварительной оценки"
-                      )}`}
-                      className="nicor-btn-subtle"
-                    >
-                      Написать
-                    </a>
-                  </div>
-                </div>
+                  <div className="mt-3 text-sm font-semibold text-zinc-900">Написать письмо</div>
+                </a>
               </div>
 
               {/* MESSENGERS */}
@@ -176,36 +177,6 @@ export default function ContactsPage() {
                     </a>
                   </div>
 
-                  <div className="mt-4 text-xs text-zinc-500">
-                    Ответим после уточнения деталей — без лишних вопросов и «скриптов».
-                  </div>
-                </div>
-              </div>
-
-              {/* REQUISITES */}
-              <div className="nicor-card-soft p-5">
-                <div className="flex items-center gap-2 text-xs font-semibold text-zinc-600">
-                  <FileText className="h-4 w-4" />
-                  Реквизиты
-                </div>
-
-                <div className="mt-3 grid gap-2 text-sm text-zinc-700">
-                  <div className="flex justify-between gap-3">
-                    <span className="text-zinc-600">ИП</span>
-                    <span className="font-semibold text-zinc-900">Иванов И.И.</span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <span className="text-zinc-600">ИНН</span>
-                    <span className="font-semibold text-zinc-900">780100000000</span>
-                  </div>
-                  <div className="flex justify-between gap-3">
-                    <span className="text-zinc-600">ОГРНИП</span>
-                    <span className="font-semibold text-zinc-900">321780100000000</span>
-                  </div>
-                </div>
-
-                <div className="mt-3 text-xs text-zinc-500">
-                  Полные реквизиты и документы предоставим по запросу.
                 </div>
               </div>
 
@@ -274,14 +245,7 @@ export default function ContactsPage() {
                     <div className="text-sm font-semibold">Офис на карте</div>
                   </div>
 
-                  <a
-                    href="https://yandex.ru/maps/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-zinc-700 hover:text-zinc-900"
-                  >
-                    Открыть в картах →
-                  </a>
+                  <div className="text-xs text-zinc-600">Маршрут: блок «Адрес»</div>
                 </div>
               </div>
 
@@ -302,7 +266,7 @@ export default function ContactsPage() {
       {/* =========================
           SCREEN 2: FULL-WIDTH FORM
          ========================= */}
-      <section className="nicor-section border-t nicor-border">
+      <section id="message" className="nicor-section border-t nicor-border">
         <div className="nicor-container">
           <div className="mx-auto max-w-4xl">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -322,18 +286,49 @@ export default function ContactsPage() {
             </div>
 
             <div className="mt-6 nicor-cta-premium p-6 md:p-8">
-              <form className="grid gap-4">
+              <form className="grid gap-4" action="#message" method="get" aria-describedby="contacts-form-note">
                 <div className="grid gap-3 md:grid-cols-2">
-                  <input className="nicor-input nicor-input--premium" placeholder="Имя" />
-                  <input className="nicor-input nicor-input--premium" placeholder="Телефон" />
+                  <div>
+                    <label htmlFor="lead-name" className="mb-2 block text-xs font-semibold text-zinc-700">
+                      Имя
+                    </label>
+                    <input
+                      id="lead-name"
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      minLength={2}
+                      className="nicor-input nicor-input--premium"
+                      placeholder="Имя"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lead-phone" className="mb-2 block text-xs font-semibold text-zinc-700">
+                      Телефон
+                    </label>
+                    <input
+                      id="lead-phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      required
+                      minLength={10}
+                      maxLength={20}
+                      pattern="^[+0-9()\\-\\s]{10,20}$"
+                      className="nicor-input nicor-input--premium"
+                      placeholder="Телефон"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-xs font-semibold text-zinc-700">
+                  <label htmlFor="request-type" className="mb-2 block text-xs font-semibold text-zinc-700">
                     Тип обращения (по желанию)
                   </label>
                   <div className="nicor-select-wrap">
-                    <select className="nicor-select" defaultValue="">
+                    <select id="request-type" name="requestType" className="nicor-select" defaultValue="">
                       {REQUEST_TYPES.map((x) => (
                         <option key={x.value} value={x.value}>
                           {x.label}
@@ -343,10 +338,20 @@ export default function ContactsPage() {
                   </div>
                 </div>
 
-                <textarea
-                  className="nicor-textarea nicor-textarea--premium"
-                  placeholder="Коротко опишите задачу и укажите район/адрес. Если важно — добавьте желаемые сроки."
-                />
+                <div>
+                  <label htmlFor="request-message" className="mb-2 block text-xs font-semibold text-zinc-700">
+                    Описание задачи
+                  </label>
+                  <textarea
+                    id="request-message"
+                    name="message"
+                    rows={5}
+                    minLength={10}
+                    required
+                    className="nicor-textarea nicor-textarea--premium"
+                    placeholder="Коротко опишите задачу и укажите район/адрес. Если важно — добавьте желаемые сроки."
+                  />
+                </div>
 
                 <div className="nicor-upload">
                   <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
@@ -359,18 +364,25 @@ export default function ContactsPage() {
                       Можно прикрепить 1–5 файлов. Если фото нет — ничего страшного.
                     </div>
 
-                    <label className="nicor-btn-subtle cursor-pointer justify-center">
+                    <label htmlFor="request-files" className="nicor-btn-subtle cursor-pointer justify-center">
                       Прикрепить
-                      <input type="file" className="hidden" accept="image/*" multiple />
+                      <input
+                        id="request-files"
+                        name="photos"
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                      />
                     </label>
                   </div>
                 </div>
 
-                <button type="button" className="nicor-btn-primary h-12 rounded-2xl !text-white">
+                <button type="submit" className="nicor-btn-primary h-12 rounded-2xl !text-white">
                   Отправить
                 </button>
 
-                <div className="text-xs text-zinc-500">
+                <div id="contacts-form-note" className="text-xs text-zinc-500">
                   Нажимая «Отправить», Вы соглашаетесь на обработку данных для связи.
                 </div>
               </form>

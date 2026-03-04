@@ -1,56 +1,60 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  CheckCircle2,
   PhoneCall,
   Sparkles,
   MapPin,
   ShieldCheck,
   Clock,
-  Droplets,
-  Flame,
-  Wrench,
-  Home as HomeIcon,
   FileText,
   Camera,
 } from "lucide-react";
+import { ServiceSelector, type ServiceSelectorItem } from "@/components/services/ServiceSelector";
 
-const SERVICES = [
+const SERVICES: ServiceSelectorItem[] = [
   {
     title: "Санузел под ключ",
     href: "/services/bathroom",
     desc:
       "Разводка труб, инсталляция, душ/ванна, подключение, герметичность. Сделаем так, чтобы было спокойно жить: без течей и «потом переделаем».",
-    icon: Droplets,
     bullets: ["Смета до старта", "Аккуратно и чисто", "Гарантия по договору"],
     tag: "квартира / дом",
+    image: "/images/services/sanuzel1.jpg",
+    imageAlt: "Санузел под ключ",
+    imagePosition: "50% 44%",
   },
   {
     title: "Тёплый пол (водяной)",
     href: "/services/floor-heating",
     desc:
       "Укладка, коллектор, опрессовка, запуск. Подберём правильную схему и объясним, что будет с температурой и расходом.",
-    icon: Flame,
     bullets: ["Опрессовка", "Коллекторный узел", "Пуск и проверка"],
     tag: "комфорт",
+    image: "/images/services/heatfloor.jpg",
+    imageAlt: "Тёплый пол (водяной)",
+    imagePosition: "50% 52%",
   },
   {
     title: "Отопление",
     href: "/services/heating",
     desc:
       "Котёл, радиаторы, узлы, разводка по дому/квартире. Балансировка и настройка, чтобы грело равномерно, а не «в одной комнате Африка».",
-    icon: HomeIcon,
     bullets: ["Узлы и обвязка", "Балансировка", "Настройка системы"],
     tag: "дом / коттедж",
+    image: "/images/services/otoplenie1.jpeg",
+    imageAlt: "Отопление",
+    imagePosition: "50% 46%",
   },
   {
     title: "Установка сантехники",
     href: "/services/installation",
     desc:
       "Унитазы, смесители, сифоны, душевые системы, замены и мелкий ремонт. Быстро, аккуратно, без грязи и сюрпризов.",
-    icon: Wrench,
     bullets: ["Монтаж и замена", "Устранение течей", "Подключения"],
     tag: "быстро",
+    image: "/images/services/sanuzel1.jpg",
+    imageAlt: "Установка сантехники",
+    imagePosition: "50% 62%",
   },
 ];
 
@@ -71,63 +75,6 @@ const FAQ = [
       "Часто — да. Напишите или позвоните: скажем ближайшее окно и что нужно подготовить.",
   },
 ];
-
-function ServiceCard({
-  title,
-  href,
-  desc,
-  icon: Icon,
-  bullets,
-  tag,
-}: {
-  title: string;
-  href: string;
-  desc: string;
-  icon: any;
-  bullets: string[];
-  tag: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className={[
-        "group block",
-        "nicor-card-soft nicor-lift",
-        "p-6 md:p-7",
-        "transition",
-      ].join(" ")}
-    >
-      <div className="flex items-start gap-4">
-        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border nicor-border bg-white">
-          <Icon className="h-5 w-5 text-zinc-900" />
-        </div>
-
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="text-base font-semibold">{title}</div>
-            <span className="nicor-badge text-[11px]">{tag}</span>
-          </div>
-
-          <p className="mt-2 text-sm text-zinc-600">{desc}</p>
-
-          <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
-            {bullets.map((b) => (
-              <li key={b} className="flex gap-2">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
-                {b}
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-zinc-800 group-hover:text-zinc-950">
-            Открыть услугу
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 export default function ServicesPage() {
   return (
@@ -157,74 +104,17 @@ export default function ServicesPage() {
           </h1>
 
           <p className="mt-4 nicor-p max-w-3xl">
-            Мы не «просто приезжаем». Мы делаем работу так, чтобы после сдачи
-            не было тревоги: течей, запахов, кривых подключений и вечных
-            «переделаем потом». Вначале — понимание задачи и диапазон цены,
-            затем — смета и договор, дальше — аккуратный монтаж и проверка.
+            На этой странице представлены основные направления сантехнических и
+            инженерных работ, которые выполняет компания «НИКОР». Мы работаем с
+            системами водоснабжения, отопления и канализации в квартирах,
+            частных домах и коммерческих помещениях Санкт-Петербурга и области.
+            Каждая услуга предполагает аккуратный подход к монтажу, внимательное
+            отношение к соединениям и узлам, а также соблюдение технических
+            требований к инженерным системам. Перед началом работ важно понять
+            условия на объекте и подобрать решение, которое будет работать
+            надёжно и стабильно в ежедневной эксплуатации.
           </p>
 
-          <p className="mt-3 text-sm text-zinc-500 max-w-3xl">
-            Частые запросы: санузел под ключ, тёплый пол, отопление,
-            установка/замена сантехники. Подходит для квартиры, дома и небольших
-            коммерческих объектов.
-          </p>
-
-          {/* Primary actions */}
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link href="/contacts#lead" className="nicor-btn-brand">
-              Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
-            </Link>
-            <a href="tel:+79990000000" className="nicor-btn-ghost">
-              <PhoneCall className="h-4 w-4" />
-              Позвонить
-            </a>
-          </div>
-
-          {/* How to get price — small, not duplicating hero card */}
-          <div className="mt-10 nicor-card p-6 md:p-7">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-zinc-900" />
-              <div className="text-sm font-semibold">
-                Как быстро получить точную цену
-              </div>
-            </div>
-
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
-              <div className="nicor-panel p-4">
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  <Camera className="h-4 w-4" />
-                  2–4 фото
-                </div>
-                <div className="mt-2 text-sm text-zinc-600">
-                  Общий план + крупно узел/место работ.
-                </div>
-              </div>
-
-              <div className="nicor-panel p-4">
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  <FileText className="h-4 w-4" />
-                  Коротко по задаче
-                </div>
-                <div className="mt-2 text-sm text-zinc-600">
-                  «Замена» или «с нуля», что именно нужно.
-                </div>
-              </div>
-
-              <div className="nicor-panel p-4">
-                <div className="flex items-center gap-2 text-sm font-semibold">
-                  <MapPin className="h-4 w-4" />
-                  Район + сроки
-                </div>
-                <div className="mt-2 text-sm text-zinc-600">
-                  Сегодня/завтра/на неделе, есть ли ограничения по доступу.
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 text-xs text-zinc-500">
-              Сначала диапазон → затем фиксируем смету до старта работ.
-            </div>
-          </div>
         </div>
       </section>
 
@@ -242,15 +132,13 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <Link href="/contacts#lead" className="hidden md:inline-flex nicor-btn-ghost">
+            <Link href="/contacts#message" className="hidden md:inline-flex nicor-btn-ghost">
               Быстрый расчёт <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {SERVICES.map((s) => (
-              <ServiceCard key={s.href} {...s} />
-            ))}
+          <div className="mt-8">
+            <ServiceSelector items={SERVICES} />
           </div>
         </div>
       </section>
@@ -277,7 +165,7 @@ export default function ServicesPage() {
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link href="/contacts#lead" className="nicor-btn-primary !text-white">
+            <Link href="/contacts#message" className="nicor-btn-primary !text-white">
               Хочу так же — рассчитать <ArrowRight className="h-4 w-4 opacity-90" />
             </Link>
             <Link href="/cases" className="nicor-btn-ghost">
@@ -328,7 +216,7 @@ export default function ServicesPage() {
               </div>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link href="/contacts#lead" className="nicor-btn-brand">
+                <Link href="/contacts#message" className="nicor-btn-brand">
                   Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
                 </Link>
                 <a href="tel:+79990000000" className="nicor-btn-ghost">
@@ -340,6 +228,57 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      <div className="nicor-divider" />
+
+      {/* HOW TO GET EXACT PRICE */}
+      <section className="nicor-section">
+        <div className="nicor-container">
+          <div className="nicor-card-premium p-6 md:p-8">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-zinc-900" />
+              <h2 className="text-lg font-semibold md:text-xl">Как быстро получить точную цену</h2>
+            </div>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              <div className="nicor-panel p-5">
+                <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  <Camera className="h-4 w-4" />
+                  2–4 фото
+                </div>
+                <div className="mt-2 text-sm text-zinc-600">
+                  Общий план + крупно узел/место работ.
+                </div>
+              </div>
+
+              <div className="nicor-panel p-5">
+                <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  <FileText className="h-4 w-4" />
+                  Коротко по задаче
+                </div>
+                <div className="mt-2 text-sm text-zinc-600">
+                  «Замена» или «с нуля», что именно нужно.
+                </div>
+              </div>
+
+              <div className="nicor-panel p-5">
+                <div className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  <MapPin className="h-4 w-4" />
+                  Район + сроки
+                </div>
+                <div className="mt-2 text-sm text-zinc-600">
+                  Сегодня/завтра/на неделе, есть ли ограничения по доступу.
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 text-xs text-zinc-500">
+              Сначала диапазон, затем фиксируем смету до старта работ.
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
+

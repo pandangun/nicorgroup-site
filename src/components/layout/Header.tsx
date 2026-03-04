@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, PhoneCall } from "lucide-react";
 
@@ -24,6 +24,11 @@ function isActivePath(pathname: string, href: string) {
 }
 
 type PillRect = { left: number; width: number };
+type LogoVarsStyle = CSSProperties & {
+  ["--logo-scale"]: number;
+  ["--logo-x"]: string;
+  ["--logo-y"]: string;
+};
 
 function useRafPillTracker() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -70,20 +75,18 @@ function useRafPillTracker() {
 
 export function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [openAtPath, setOpenAtPath] = useState<string | null>(null);
+  const open = openAtPath === pathname;
 
   const activeHref = useMemo(() => {
     const found = NAV.find((i) => isActivePath(pathname, i.href));
     return found?.href ?? null;
   }, [pathname]);
 
-  // close drawer on route change
-  useEffect(() => setOpen(false), [pathname]);
-
   // ESC to close
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") setOpenAtPath(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -101,6 +104,12 @@ export function Header() {
 
   const { wrapRef, hoverRect, setFromEl, clear } = useRafPillTracker();
 
+  const logoStyle: LogoVarsStyle = {
+    "--logo-scale": 1.35,
+    "--logo-x": "0px",
+    "--logo-y": "0px",
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200/70 bg-white/75 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
@@ -109,13 +118,7 @@ export function Header() {
         
           <div
             className="nicor-logo-wrap"
-            style={
-              {
-                ["--logo-scale" as any]: 1.35,
-                ["--logo-x" as any]: "0px",
-                ["--logo-y" as any]: "0px",
-              } as React.CSSProperties
-            }
+            style={logoStyle}
           >
             <Image
               src="/images/logo-v2.png"
@@ -195,7 +198,7 @@ export function Header() {
                   key={`nav-${item.href}-${item.label}`}
                   href={item.href}
                   onMouseEnter={(e) => setFromEl(e.currentTarget)}
-                  className="relative"
+                  className="relative group"
                 >
                   <motion.span
                     whileHover={{ scale: 1.02 }}
@@ -203,8 +206,11 @@ export function Header() {
                     transition={{ type: "spring", stiffness: 520, damping: 38 }}
                     className={[
                       "relative z-10 inline-flex items-center rounded-full px-3 py-2 text-sm font-semibold",
+                      "after:absolute after:left-3 after:right-3 after:bottom-1 after:h-[2px] after:rounded-full after:bg-zinc-900/70 after:transition-opacity",
                       "transition-colors",
-                      active ? "text-zinc-900" : "text-zinc-700 hover:text-zinc-950",
+                      active
+                        ? "text-zinc-900 after:opacity-100"
+                        : "text-zinc-700 hover:text-zinc-950 after:opacity-0 group-hover:after:opacity-40",
                     ].join(" ")}
                   >
                     {item.label}
@@ -226,7 +232,7 @@ export function Header() {
           </a>
 
           <Link
-            href="/contacts#lead"
+            href="/contacts#message"
             className="nicor-btn-primary rounded-full !text-white px-4 py-2 text-sm"
           >
             Оставить заявку
@@ -236,7 +242,7 @@ export function Header() {
         {/* Mobile */}
         <div className="flex items-center gap-2 md:hidden">
           <Link
-            href="/contacts#lead"
+            href="/contacts#message"
             className="rounded-full bg-zinc-900 px-3 py-2 text-xs font-semibold !text-white shadow-sm hover:bg-zinc-800 active:scale-[0.99] leading-none"
           >
             Заявка
@@ -244,7 +250,7 @@ export function Header() {
 
           <button
             aria-label="Открыть меню"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpenAtPath(pathname)}
             className="rounded-full border border-zinc-200 bg-white p-2 shadow-sm active:scale-[0.99]"
           >
             <Menu className="h-5 w-5" />
@@ -263,7 +269,7 @@ export function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setOpen(false)}
+              onClick={() => setOpenAtPath(null)}
             />
 
             {/* Panel */}
@@ -278,7 +284,7 @@ export function Header() {
                 <div className="text-sm font-semibold">Меню</div>
                 <button
                   aria-label="Закрыть"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setOpenAtPath(null)}
                   className="rounded-full border border-zinc-200 bg-white p-2 shadow-sm active:scale-[0.99]"
                 >
                   <X className="h-5 w-5" />
@@ -295,8 +301,8 @@ export function Header() {
                       <Link
                         key={`nav-mobile-${item.href}-${item.label}`}
                         href={item.href}
-                        className="block"
-                        onClick={() => setOpen(false)}
+                        className="block group"
+                        onClick={() => setOpenAtPath(null)}
                       >
                         <div className="relative rounded-[18px] px-4 py-3">
                           {active && (
@@ -314,7 +320,14 @@ export function Header() {
                           )}
 
                           <div className="relative flex items-center justify-between">
-                            <span className={active ? "font-semibold text-zinc-900" : "font-semibold text-zinc-800"}>
+                            <span
+                              className={[
+                                "relative font-semibold after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full after:rounded-full after:bg-zinc-900/70 after:transition-opacity",
+                                active
+                                  ? "text-zinc-900 after:opacity-100"
+                                  : "text-zinc-800 after:opacity-0 group-hover:after:opacity-35",
+                              ].join(" ")}
+                            >
                               {item.label}
                             </span>
 
@@ -343,8 +356,8 @@ export function Header() {
                   </a>
 
                   <Link
-                    href="/contacts#lead"
-                    onClick={() => setOpen(false)}
+                    href="/contacts#message"
+                    onClick={() => setOpenAtPath(null)}
                     className="inline-flex items-center justify-center rounded-[18px] bg-zinc-900 px-4 py-3 text-sm font-semibold !text-white shadow-sm hover:bg-zinc-800 active:scale-[0.99]"
                   >
                     Рассчитать по фото
@@ -360,3 +373,4 @@ export function Header() {
     </header>
   );
 }
+

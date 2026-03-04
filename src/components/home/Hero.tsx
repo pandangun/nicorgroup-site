@@ -9,7 +9,6 @@ import {
   PhoneCall,
 } from "lucide-react";
 
-const PHONE_DISPLAY = "+7 900 630-09-74";
 const PHONE_HREF = "+79006300974";
 
 function HeroIllustration() {
@@ -80,7 +79,7 @@ function HeroIllustration() {
           Позвонить
         </a>
 
-        <Link href="/contacts#lead" className="nicor-btn-primary text-center">
+        <Link href="/contacts#message" className="nicor-btn-primary text-center">
           Оставить заявку <ArrowRight className="h-4 w-4 opacity-90" />
         </Link>
       </div>
@@ -196,7 +195,7 @@ export function Hero() {
 
           {/* CTA */}
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row nicor-animate-in nicor-delay-3">
-            <Link href="/contacts#lead" className="nicor-btn-primary">
+            <Link href="/contacts#message" className="nicor-btn-primary">
               Оставить заявку <ArrowRight className="h-4 w-4 opacity-90" />
             </Link>
             <Link href="/services" className="nicor-btn-ghost">

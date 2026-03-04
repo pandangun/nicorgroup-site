@@ -271,7 +271,7 @@ export default function Page() {
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href="/contacts#lead"
+                  href="/contacts#message"
                   className="nicor-btn-primary inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3"
                 >
                   Рассчитать по фото <ArrowRight className="h-4 w-4" />
@@ -349,7 +349,7 @@ export default function Page() {
                     </div>
 
                     <Link
-                      href="/contacts#lead"
+                      href="/contacts#message"
                       className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-4 py-3 text-sm text-white hover:bg-zinc-800"
                     >
                       Получить точный расчёт по фото <ArrowRight className="h-4 w-4" />
@@ -402,7 +402,7 @@ export default function Page() {
                 Быстро прикинем диапазон стоимости по площади и конфигурации.
               </p>
             </div>
-            <Link href="/contacts#lead" className="nicor-btn-ghost inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm">
+            <Link href="/contacts#message" className="nicor-btn-ghost inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm">
               Рассчитать по фото точнее
             </Link>
           </div>
@@ -638,7 +638,7 @@ export default function Page() {
                 </div>
 
                 <Link
-                  href="/contacts#lead"
+                  href="/contacts#message"
                   className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-4 py-3 text-sm text-white hover:bg-zinc-800"
                 >
                   Получить точный расчёт по фото <ArrowRight className="h-4 w-4" />
@@ -683,7 +683,7 @@ export default function Page() {
                 Выберите подходящий формат — или просто пришлите фото, и мы предложим лучший вариант.
               </p>
             </div>
-            <Link href="/contacts#lead" className="hidden rounded-2xl border px-4 py-2 text-sm hover:bg-zinc-50 md:inline-flex">
+            <Link href="/contacts#message" className="hidden rounded-2xl border px-4 py-2 text-sm hover:bg-zinc-50 md:inline-flex">
               Подобрать вариант
             </Link>
           </div>
@@ -721,7 +721,7 @@ export default function Page() {
                 </ul>
 
                 <Link
-                  href="/contacts#lead"
+                  href="/contacts#message"
                   className={cn(
                     "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm",
                     p.featured ? "bg-zinc-900 text-white hover:bg-zinc-800" : "border hover:bg-zinc-50"
@@ -788,7 +788,7 @@ export default function Page() {
               </div>
               <div className="flex w-full gap-3 md:w-auto">
                 <Link
-                  href="/contacts#lead"
+                  href="/contacts#message"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-sm text-white hover:bg-zinc-800 md:w-auto"
                 >
                   Рассчитать по фото <ArrowRight className="h-4 w-4" />
@@ -870,7 +870,7 @@ export default function Page() {
       <div className="fixed inset-x-0 bottom-0 z-50 border-t bg-white/90 p-3 backdrop-blur md:hidden">
         <div className="nicor-container">
           <Link
-            href="/contacts#lead"
+            href="/contacts#message"
             className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-4 py-3 text-sm text-white"
           >
             Рассчитать тёплый пол по фото <ArrowRight className="h-4 w-4" />
@@ -880,3 +880,4 @@ export default function Page() {
     </div>
   );
 }
+

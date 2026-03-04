@@ -167,7 +167,7 @@ function PriceBlock({ section }: { section: PriceSection }) {
           <p className="mt-2 nicor-p">{section.subtitle}</p>
         </div>
 
-        <Link href="/contacts#lead" className="hidden sm:inline-flex nicor-btn-ghost nicor-btn-sm">
+        <Link href="/contacts#message" className="hidden sm:inline-flex nicor-btn-ghost nicor-btn-sm">
           Рассчитать <ArrowRight className="h-4 w-4 opacity-80" />
         </Link>
       </div>
@@ -304,7 +304,7 @@ export default function PricesPage() {
                   Если задач несколько — пакет почти всегда выгоднее, чем “по одной позиции”.
                 </p>
               </div>
-              <Link href="/contacts#lead" className="hidden md:inline-flex nicor-btn-brand">
+              <Link href="/contacts#message" className="hidden md:inline-flex nicor-btn-brand">
                 Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
               </Link>
             </div>
@@ -328,7 +328,7 @@ export default function PricesPage() {
                     ))}
                   </ul>
 
-                  <Link href="/contacts#lead" className="mt-5 w-full nicor-btn-primary">
+                  <Link href="/contacts#message" className="mt-5 w-full nicor-btn-primary">
                     Узнать точнее <ArrowRight className="h-4 w-4 opacity-90" />
                   </Link>
                 </div>
@@ -379,7 +379,7 @@ export default function PricesPage() {
                 </div>
 
                 <div className="flex w-full flex-col gap-3 sm:flex-row md:w-auto">
-                  <Link href="/contacts#lead" className="nicor-btn-brand w-full md:w-auto">
+                  <Link href="/contacts#message" className="nicor-btn-brand w-full md:w-auto">
                     Рассчитать по фото <ArrowRight className="h-4 w-4 opacity-90" />
                   </Link>
                   <Link href="/services" className="nicor-btn-ghost w-full md:w-auto">
@@ -397,3 +397,4 @@ export default function PricesPage() {
     </div>
   );
 }
+

@@ -62,7 +62,7 @@ body{
   color: rgb(var(--text));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection { background: rgb(var(--brand) / 0.22); }
@@ -365,6 +365,55 @@ html{ scroll-behavior: smooth; }
 }
 .nicor-btn-subtle:hover{ transform: translateY(-1px); box-shadow: 0 16px 42px rgba(0,0,0,.10); }
 
+.nicor-btn-sm{
+  padding: .58rem .82rem;
+  border-radius: 12px;
+  font-size: .8125rem;
+}
+
+.nicor-glass{
+  border-radius: var(--r-md);
+  border: 1px solid rgb(var(--border) / 0.84);
+  background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.50));
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.nicor-panel{
+  border-radius: 24px;
+  border: 1px solid rgb(var(--border) / 0.80);
+  background: linear-gradient(135deg, rgba(255,255,255,.74), rgba(255,255,255,.48));
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.nicor-card{
+  border-radius: 24px;
+  border: 1px solid rgb(var(--border) / 0.80);
+  background: rgba(255,255,255,.76);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nicor-lift{
+  transition: transform .18s var(--ease-out), box-shadow .18s var(--ease-out);
+}
+.nicor-lift:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 20px 58px rgba(0,0,0,.12);
+}
+
+.nicor-glow-hover{
+  transition: box-shadow .18s var(--ease-out), transform .18s var(--ease-out);
+}
+.nicor-glow-hover:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 24px 64px rgb(var(--brand2) / 0.18);
+}
+
 /* ------------------------------ Inputs / Select --------------------------- */
 
 .nicor-input{
@@ -386,6 +435,13 @@ html{ scroll-behavior: smooth; }
   border-color: rgb(var(--brand2) / .45);
 }
 
+.nicor-input--premium{
+  background:
+    radial-gradient(260px 120px at 16% 20%, rgb(var(--brand) / .10), transparent 60%),
+    radial-gradient(260px 120px at 88% 30%, rgb(var(--brand2) / .10), transparent 60%),
+    rgba(255,255,255,.78);
+}
+
 .nicor-textarea{
   width: 100%;
   min-height: 120px;
@@ -403,6 +459,13 @@ html{ scroll-behavior: smooth; }
 .nicor-textarea:focus-visible{
   box-shadow: 0 0 0 6px rgb(var(--brand) / .16), var(--shadow-sm);
   border-color: rgb(var(--brand2) / .45);
+}
+
+.nicor-textarea--premium{
+  background:
+    radial-gradient(260px 120px at 16% 20%, rgb(var(--brand) / .10), transparent 60%),
+    radial-gradient(260px 120px at 88% 30%, rgb(var(--brand2) / .10), transparent 60%),
+    rgba(255,255,255,.78);
 }
 
 /* Select */
@@ -538,6 +601,43 @@ html{ scroll-behavior: smooth; }
 .nicor-pill--tg{ border-color: rgba(59,130,246,.25); }
 .nicor-pill--max{ border-color: rgba(236,72,153,.22); }
 
+.nicor-group > * + *{ margin-top: .95rem; }
+
+.nicor-price-card{
+  border-radius: 24px;
+  border: 1px solid rgb(var(--border) / 0.84);
+  background: rgba(255,255,255,.72);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.nicor-price-row{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .95rem;
+  align-items: start;
+  padding: .95rem 1rem;
+  border-bottom: 1px solid rgb(var(--border) / 0.72);
+}
+.nicor-price-row:last-child{ border-bottom: 0; }
+
+.nicor-price-name{
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.nicor-price-note{
+  margin-top: .2rem;
+  font-size: .82rem;
+  color: rgb(var(--muted2));
+}
+
+.nicor-price-value{
+  font-weight: 800;
+  white-space: nowrap;
+  color: rgb(var(--text));
+}
+
 /* ------------------------------ Noise ------------------------------------- */
 
 .nicor-noise{ position: relative; isolation: isolate; }
@@ -567,6 +667,46 @@ html{ scroll-behavior: smooth; }
 .nicor-delay-4{ animation-delay: 360ms; }
 .nicor-delay-5{ animation-delay: 450ms; }
 .nicor-delay-6{ animation-delay: 540ms; }
+
+@keyframes nicor-shimmer{
+  0%{ transform: translateX(-100%); }
+  100%{ transform: translateX(100%); }
+}
+.nicor-skeleton{
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(244,247,252,.92));
+  border: 1px solid rgb(var(--border) / 0.82);
+}
+.nicor-skeleton::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  animation: nicor-shimmer 1.6s linear infinite;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
+  .nicor-card-soft,
+  .nicor-panel-premium,
+  .nicor-card-premium,
+  .nicor-cta-premium,
+  .nicor-chip,
+  .nicor-btn-subtle,
+  .nicor-input,
+  .nicor-textarea,
+  .nicor-select,
+  .nicor-upload,
+  .nicor-action,
+  .nicor-map-embed,
+  .nicor-glass,
+  .nicor-panel,
+  .nicor-card{
+    background: rgba(255,255,255,.92);
+  }
+}
 
 /* ------------------------------ Logo fit ---------------------------------- */
 
@@ -614,6 +754,10 @@ html{ scroll-behavior: smooth; }
   0%{ background-position: 0% 50%; }
   50%{ background-position: 100% 50%; }
   100%{ background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .nicor-skeleton::after{ animation: none; }
 }
 
 /* Scrollbar */

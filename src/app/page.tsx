@@ -296,7 +296,7 @@ export default function Home() {
 
               {/* CTA #2 – one clean place to lead to form */}
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link href="/contacts#lead" className="nicor-btn-primary !text-white">
+                <Link href="/contacts#message" className="nicor-btn-primary !text-white">
                   Оставить заявку <ArrowRight className="h-4 w-4 opacity-90" />
                 </Link>
                 <a href={`tel:${PHONE_HREF}`} className="nicor-btn-ghost">
@@ -399,7 +399,7 @@ export default function Home() {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Link href="/contacts#lead" className="nicor-btn-primary !text-white">
+                <Link href="/contacts#message" className="nicor-btn-primary !text-white">
                   Оставить заявку <ArrowRight className="h-4 w-4 opacity-90" />
                 </Link>
                 <a href={`tel:${PHONE_HREF}`} className="nicor-btn-ghost">
