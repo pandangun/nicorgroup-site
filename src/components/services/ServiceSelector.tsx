@@ -153,10 +153,8 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
                   />
                   <div
                     className={[
-                      "pointer-events-none absolute inset-0",
-                      active
-                        ? "bg-[linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.70))]"
-                        : "bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.36))]",
+                      "pointer-events-none absolute inset-0 nicor-service-3d-overlay",
+                      active ? "is-active" : "is-side",
                     ].join(" ")}
                   />
 
@@ -170,7 +168,7 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
                       </h3>
                       <p className="mt-2 max-w-2xl text-sm text-white/90 md:text-base">{item.desc}</p>
 
-                      <ul className="mt-3 grid gap-1.5 text-xs text-white/95 md:text-sm">
+                      <ul className="nicor-service-3d-bullets mt-3 grid gap-1.5 text-xs text-white/95 md:text-sm">
                         {item.bullets.map((b) => (
                           <li key={b} className="flex gap-2">
                             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
@@ -179,7 +177,7 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
                         ))}
                       </ul>
 
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className="nicor-service-3d-actions mt-4 flex flex-wrap gap-2">
                         <Link
                           href={item.href}
                           onClick={(e) => e.stopPropagation()}

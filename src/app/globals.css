@@ -1306,7 +1306,7 @@ html{ scroll-behavior: smooth; }
 .nicor-service-3d-card{
   position: absolute;
   left: 50%;
-  top: 52%;
+  top: 50%;
   width: clamp(280px, 72vw, 1040px);
   aspect-ratio: 16 / 9.2;
   border: 1px solid rgb(var(--border) / 0.78);
@@ -1334,6 +1334,18 @@ html{ scroll-behavior: smooth; }
     linear-gradient(120deg, rgba(255,255,255,.28), rgba(255,255,255,0) 35%),
     radial-gradient(100% 70% at 20% 0%, rgba(255,255,255,.25), transparent 60%);
   mix-blend-mode: screen;
+}
+
+.nicor-service-3d-overlay{
+  transition: background 420ms var(--ease-out), opacity 420ms var(--ease-out);
+}
+
+.nicor-service-3d-overlay.is-active{
+  background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.70));
+}
+
+.nicor-service-3d-overlay.is-side{
+  background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.36));
 }
 
 .nicor-service-3d-card.is-active{
@@ -1398,12 +1410,91 @@ html{ scroll-behavior: smooth; }
 }
 
 @media (max-width: 640px){
-  .nicor-service-3d-stage{
-    height: 62svh;
-    min-height: 360px;
+  .nicor-service-3d-wrap{
+    border-radius: 22px;
   }
-  .nicor-service-3d-content p{
+
+  .nicor-service-3d-stage{
+    height: min(82svh, 640px);
+    min-height: 500px;
+    perspective: none;
+  }
+
+  .nicor-service-3d-card{
+    width: min(94vw, 460px);
+    aspect-ratio: 4 / 5.2;
+    border-radius: 20px;
+    transition-duration: 380ms;
+  }
+
+  .nicor-service-3d-card:not(.is-active){
     display: none;
+  }
+
+  .nicor-service-3d-card.is-active{
+    transform: translate(-50%, -50%) scale(1) !important;
+    opacity: 1 !important;
+    box-shadow:
+      0 22px 48px rgba(15,23,42,.34),
+      0 0 0 1px rgba(255,255,255,.55) inset;
+  }
+
+  .nicor-service-3d-overlay.is-active{
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,.02) 12%,
+      rgba(0,0,0,.2) 46%,
+      rgba(0,0,0,.68) 100%
+    );
+  }
+
+  .nicor-service-3d-content{
+    left: .72rem;
+    right: .72rem;
+    bottom: .72rem;
+    border-radius: 14px;
+    padding: .78rem .8rem .82rem;
+    background: linear-gradient(165deg, rgba(11,18,32,.52), rgba(11,18,32,.74));
+    box-shadow: 0 14px 30px rgba(0,0,0,.32);
+  }
+
+  .nicor-service-3d-content h3{
+    font-size: clamp(1.2rem, 6vw, 1.58rem);
+    line-height: 1.15;
+  }
+
+  .nicor-service-3d-content p{
+    display: block;
+    margin-top: .4rem;
+    font-size: .82rem;
+    line-height: 1.35;
+    color: rgba(255,255,255,.9);
+  }
+
+  .nicor-service-3d-bullets{
+    margin-top: .55rem;
+    gap: .35rem;
+  }
+
+  .nicor-service-3d-bullets li{
+    font-size: .72rem;
+    line-height: 1.2;
+  }
+
+  .nicor-service-3d-bullets li:nth-child(n + 3){
+    display: none;
+  }
+
+  .nicor-service-3d-actions{
+    margin-top: .68rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .45rem;
+  }
+
+  .nicor-service-3d-actions .nicor-btn-sm{
+    width: 100%;
+    justify-content: center;
   }
 }
 
