@@ -243,6 +243,191 @@ html{ scroll-behavior: smooth; }
   box-shadow: 0 26px 70px rgba(0,0,0,.14);
 }
 
+.nicor-home-service{
+  position: relative;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgb(var(--border) / 0.82);
+  background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(255,255,255,.62));
+  box-shadow: 0 20px 56px rgba(0,0,0,.12);
+  transition:
+    transform .58s cubic-bezier(.2, 1.24, .22, 1),
+    box-shadow .54s cubic-bezier(.2, 1.08, .24, 1),
+    border-color .48s cubic-bezier(.2, .95, .24, 1),
+    filter .58s cubic-bezier(.2, 1.12, .22, 1);
+}
+
+.nicor-home-service::after{
+  content: "";
+  position: absolute;
+  inset: -26% -10%;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(42% 30% at 18% 20%, rgba(20,184,166,.22), transparent 78%),
+    radial-gradient(44% 32% at 84% 20%, rgba(59,130,246,.20), transparent 80%);
+  opacity: 0;
+  transform: scale(.92);
+  transition:
+    opacity .52s cubic-bezier(.2, 1.04, .24, 1),
+    transform .62s cubic-bezier(.2, 1.22, .22, 1);
+}
+
+.nicor-home-service:hover{
+  transform: translateY(-4px) scale(1.004);
+  border-color: rgba(59,130,246,.28);
+  box-shadow: 0 30px 76px rgba(0,0,0,.18);
+  filter: saturate(1.04);
+  transition:
+    transform .24s var(--ease-out),
+    box-shadow .26s var(--ease-out),
+    border-color .24s var(--ease-out),
+    filter .24s var(--ease-out);
+}
+
+.nicor-home-service:hover::after{
+  opacity: .92;
+  transform: scale(1);
+  transition:
+    opacity .24s var(--ease-out),
+    transform .24s var(--ease-out);
+}
+
+.nicor-home-service__media{
+  position: relative;
+  aspect-ratio: 16/9.4;
+  overflow: hidden;
+}
+
+.nicor-home-service__media::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 58% at 80% 100%, rgba(0,0,0,.36), transparent 72%),
+    linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.40));
+}
+
+.nicor-home-service__veil{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: .95;
+}
+
+.nicor-home-service__media::before{
+  content: "";
+  position: absolute;
+  inset: -40% 0 auto;
+  height: 140%;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.36) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 780ms var(--ease-out);
+}
+
+.nicor-home-service:hover .nicor-home-service__media::before{
+  transform: translateX(120%);
+}
+
+.nicor-home-service__img{
+  transition:
+    transform .62s cubic-bezier(.2, 1.2, .24, 1),
+    filter .58s cubic-bezier(.2, 1.08, .24, 1);
+  filter: saturate(.98) contrast(1.02);
+}
+
+.nicor-home-service:hover .nicor-home-service__img{
+  transform: scale(1.06);
+  filter: saturate(1.08) contrast(1.06);
+  transition:
+    transform .26s var(--ease-out),
+    filter .26s var(--ease-out);
+}
+
+.nicor-home-service__top{
+  position: absolute;
+  inset: .75rem .75rem auto;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .6rem;
+}
+
+.nicor-home-service__tag{
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.34);
+  background: rgba(15,23,42,.32);
+  color: rgba(255,255,255,.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: .28rem .62rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+.nicor-home-service__icon{
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.34);
+  background: rgba(15,23,42,.34);
+  color: white;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nicor-home-service__photo-btn{
+  position: absolute;
+  z-index: 3;
+  left: .75rem;
+  bottom: .75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.32);
+  background: rgba(15,23,42,.62);
+  color: rgba(255,255,255,.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: .46rem .78rem;
+  font-size: .79rem;
+  font-weight: 700;
+  transition:
+    transform .46s cubic-bezier(.2, 1.2, .24, 1),
+    background .52s cubic-bezier(.2, 1.12, .24, 1),
+    border-color .46s cubic-bezier(.2, 1.06, .24, 1);
+}
+
+.nicor-home-service__photo-btn:hover{
+  transform: translateY(-1px);
+  background: rgba(15,23,42,.78);
+  border-color: rgba(255,255,255,.48);
+  transition: transform .22s var(--ease-out), background .22s var(--ease-out), border-color .22s var(--ease-out);
+}
+
+.nicor-home-service__body{
+  padding: 1rem 1rem 1.05rem;
+}
+
+.nicor-home-service__title{
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-weight: 760;
+}
+
 .nicor-cta-premium{
   border-radius: 34px;
   border: 1px solid rgb(var(--border) / 0.82);
@@ -638,6 +823,144 @@ html{ scroll-behavior: smooth; }
   color: rgb(var(--text));
 }
 
+/* ------------------------------ Price packages 3D -------------------------- */
+
+.nicor-package-wheel-shell{
+  --pkg-wheel-radius: clamp(250px, 22vw, 350px);
+  position: relative;
+  min-height: 340px;
+}
+
+.nicor-package-wheel-controls{
+  position: absolute;
+  z-index: 6;
+  right: .65rem;
+  top: .55rem;
+  display: inline-flex;
+  gap: .35rem;
+}
+
+.nicor-package-wheel-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / 0.9);
+  background: rgba(255,255,255,.80);
+  color: rgb(var(--text));
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform var(--dur-1) var(--ease-out), background var(--dur-2) var(--ease-out);
+}
+
+.nicor-package-wheel-btn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.96);
+}
+
+.nicor-package-wheel-btn.is-360{
+  width: auto;
+  padding: 0 .62rem;
+  font-size: .72rem;
+  font-weight: 800;
+}
+
+.nicor-package-wheel-stage{
+  min-height: 340px;
+  perspective: 1700px;
+  perspective-origin: 50% 42%;
+  overflow: hidden;
+  border-radius: 26px;
+}
+
+.nicor-package-wheel-rotor{
+  position: relative;
+  width: 100%;
+  height: 340px;
+  transform-style: preserve-3d;
+  cursor: grab;
+  transform:
+    translateZ(calc(var(--pkg-wheel-radius) * -1))
+    rotateX(var(--pkg-wheel-tilt-x))
+    rotateY(var(--pkg-wheel-rot-y));
+}
+
+.nicor-package-wheel-rotor:active{
+  cursor: grabbing;
+}
+
+.nicor-package-wheel-rotor.is-transitioning{
+  transition: transform var(--pkg-wheel-rotor-dur, .8s) cubic-bezier(.2, .95, .24, 1);
+}
+
+.nicor-package-wheel-face{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(270px, 30vw, 360px);
+  height: 320px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.nicor-package-wheel-card{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.nicor-package-wheel-card-side{
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.nicor-package-wheel-card-side--front > .nicor-card-premium{
+  height: 100%;
+}
+
+.nicor-package-wheel-card-side--front{
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.nicor-package-wheel-card-side--back{
+  transform: rotateY(180deg) translateZ(1px);
+  border-radius: 28px;
+  border: 1px solid rgb(var(--border) / 0.86);
+  background:
+    radial-gradient(420px 200px at 22% 16%, rgba(59,130,246,.08), transparent 62%),
+    linear-gradient(145deg, rgba(255,255,255,.96), rgba(250,250,252,.95));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.86),
+    0 18px 42px rgba(0,0,0,.10);
+}
+
+@media (max-width: 1023px){
+  .nicor-package-wheel-shell{
+    --pkg-wheel-radius: clamp(180px, 40vw, 280px);
+    min-height: 320px;
+  }
+
+  .nicor-package-wheel-stage{
+    min-height: 320px;
+  }
+
+  .nicor-package-wheel-rotor{
+    height: 320px;
+  }
+
+  .nicor-package-wheel-face{
+    width: min(78vw, 340px);
+    height: 300px;
+  }
+}
+
 /* ------------------------------ Noise ------------------------------------- */
 
 .nicor-noise{ position: relative; isolation: isolate; }
@@ -686,6 +1009,452 @@ html{ scroll-behavior: smooth; }
   inset: 0;
   background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
   animation: nicor-shimmer 1.6s linear infinite;
+}
+
+/* ------------------------------ Geo visual -------------------------------- */
+
+.nicor-geo-stage{
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgb(var(--border) / 0.80);
+  background:
+    radial-gradient(820px 360px at 16% 18%, rgb(var(--brand) / .16), transparent 58%),
+    radial-gradient(860px 420px at 84% 82%, rgb(var(--brand2) / .14), transparent 62%),
+    linear-gradient(160deg, rgba(255,255,255,.74), rgba(241,246,252,.70));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.76), 0 20px 56px rgba(0,0,0,.12);
+  isolation: isolate;
+}
+
+.nicor-geo-map{
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nicor-geo-map__frame{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+  filter: saturate(1.1) contrast(1.08);
+  transform: scale(1.04);
+  transform-origin: center;
+  -webkit-mask-image: radial-gradient(78% 72% at 50% 46%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(78% 72% at 50% 46%, #000 62%, transparent 100%);
+}
+
+.nicor-geo-map::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 82% at 50% 52%, rgba(255,255,255,0) 42%, rgba(248,250,252,.84) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.28));
+}
+
+.nicor-geo-stage::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .36;
+  background-image:
+    linear-gradient(to right, rgba(15,23,42,.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,23,42,.15) 1px, transparent 1px),
+    radial-gradient(circle at 60% 38%, rgba(15,23,42,.10) 0 1px, transparent 1px);
+  background-size: 36px 36px, 36px 36px, 22px 22px;
+}
+
+.nicor-geo-stage::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(84% 74% at 52% 106%, rgba(15,23,42,.18) 0%, transparent 74%),
+    linear-gradient(180deg, rgba(255,255,255,.00), rgba(255,255,255,.22));
+}
+
+.nicor-geo-orbit{
+  position: absolute;
+  inset: 10% 8%;
+  z-index: 3;
+  border-radius: 999px;
+  border: 1px dashed rgba(15,23,42,.18);
+  animation: nicor-geo-spin 22s linear infinite;
+}
+
+.nicor-geo-orbit::before,
+.nicor-geo-orbit::after{
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  border: 1px dashed rgba(15,23,42,.14);
+}
+
+.nicor-geo-orbit::before{
+  inset: 14% 16%;
+  animation: nicor-geo-spin-rev 16s linear infinite;
+}
+
+.nicor-geo-orbit::after{
+  inset: 28% 10%;
+  animation: nicor-geo-spin 12s linear infinite;
+}
+
+.nicor-geo-core{
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / 0.90);
+  background: rgba(255,255,255,.76);
+  padding: .42rem .8rem;
+  font-size: .78rem;
+  font-weight: 700;
+  box-shadow: 0 14px 38px rgba(0,0,0,.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nicor-geo-districts{
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.nicor-geo-district{
+  fill: rgba(59,130,246,.12);
+  stroke: rgba(15,23,42,.44);
+  stroke-width: .5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.nicor-geo-district-label{
+  fill: rgba(15,23,42,.86);
+  font-size: 3.1px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  paint-order: stroke;
+  stroke: rgba(255,255,255,.78);
+  stroke-width: .9px;
+  stroke-linejoin: round;
+}
+
+.nicor-geo-pin{
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  animation: nicor-geo-drift 4.8s var(--ease-out) infinite;
+}
+
+.nicor-geo-pin::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(59,130,246,.48);
+  transform: translate(-50%, -50%);
+  animation: nicor-geo-ping 2.6s ease-out infinite;
+}
+
+.nicor-geo-dot{
+  position: relative;
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgb(var(--brand2)), rgb(var(--brand)));
+  box-shadow: 0 0 0 4px rgba(255,255,255,.60), 0 10px 26px rgba(15,23,42,.28);
+}
+
+.nicor-geo-label{
+  position: absolute;
+  left: 16px;
+  top: -10px;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / 0.92);
+  background: rgba(255,255,255,.76);
+  padding: .24rem .56rem;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nicor-geo-place{
+  position: absolute;
+  z-index: 7;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: .32rem;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / 0.92);
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 10px 28px rgba(15,23,42,.22);
+  padding: .22rem .5rem;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgb(var(--text));
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: nicor-geo-place-float 4.4s var(--ease-out) infinite;
+  transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), filter var(--dur-2) var(--ease-out);
+}
+
+.nicor-geo-place.is-office{
+  border-color: rgba(20,184,166,.42);
+  background:
+    radial-gradient(120px 40px at 16% 0%, rgba(20,184,166,.22), transparent 70%),
+    rgba(255,255,255,.90);
+}
+
+.nicor-geo-place.is-store{
+  border-color: rgba(59,130,246,.36);
+}
+
+.nicor-geo-place:hover{
+  filter: brightness(1.03);
+  box-shadow: 0 14px 34px rgba(15,23,42,.26);
+}
+
+.nicor-geo-chip{
+  animation: nicor-chip-hop 5.4s var(--ease-out) infinite;
+  will-change: transform, box-shadow;
+}
+
+/* --------------------------- Services 3D selector -------------------------- */
+
+.nicor-service-3d-full{
+  min-height: 100svh;
+  padding: clamp(1rem, 2.5vw, 2rem) clamp(.8rem, 2vw, 1.4rem) 1.25rem;
+}
+
+.nicor-service-3d-top{
+  width: min(1440px, 100%);
+  margin: 0 auto .75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.nicor-service-3d-wrap{
+  position: relative;
+  width: min(1440px, 100%);
+  min-height: calc(100svh - 164px);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgb(var(--border) / 0.82);
+  background:
+    radial-gradient(1000px 520px at -8% -6%, rgba(14,165,233,.30), transparent 62%),
+    radial-gradient(920px 500px at 108% 0%, rgba(59,130,246,.34), transparent 64%),
+    radial-gradient(900px 520px at 50% 112%, rgba(16,185,129,.20), transparent 60%),
+    linear-gradient(138deg, #e6f4ff 0%, #e9f8f4 36%, #edf1ff 68%, #e7f0ff 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 22px 58px rgba(0,0,0,.14);
+}
+
+.nicor-service-3d-bg{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 48% at 50% 60%, rgba(15,23,42,.10) 0%, transparent 76%),
+    radial-gradient(36% 24% at 18% 18%, rgba(255,255,255,.50), transparent 72%),
+    radial-gradient(34% 24% at 86% 22%, rgba(255,255,255,.44), transparent 74%),
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  opacity: .78;
+}
+
+.nicor-service-3d-stage{
+  position: relative;
+  height: calc(100svh - 180px);
+  min-height: 520px;
+  perspective: 1700px;
+  perspective-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+.nicor-service-3d-card{
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: clamp(280px, 72vw, 1040px);
+  aspect-ratio: 16 / 9.2;
+  border: 1px solid rgb(var(--border) / 0.78);
+  border-radius: 22px;
+  background: rgba(255,255,255,.82);
+  box-shadow:
+    0 16px 46px rgba(15,23,42,.20),
+    inset 0 1px 0 rgba(255,255,255,.75);
+  transform-style: preserve-3d;
+  overflow: hidden;
+  transition:
+    transform 560ms var(--ease-out),
+    opacity 420ms var(--ease-out),
+    box-shadow 420ms var(--ease-out),
+    border-color 420ms var(--ease-out);
+  cursor: pointer;
+}
+
+.nicor-service-3d-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,.28), rgba(255,255,255,0) 35%),
+    radial-gradient(100% 70% at 20% 0%, rgba(255,255,255,.25), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.nicor-service-3d-card.is-active{
+  border-color: rgba(15,23,42,.24);
+  box-shadow:
+    0 32px 90px rgba(15,23,42,.34),
+    0 0 0 1px rgba(255,255,255,.45) inset;
+}
+
+.nicor-service-3d-card.is-far{
+  filter: saturate(.76);
+}
+
+.nicor-service-3d-content{
+  position: absolute;
+  left: clamp(.8rem, 2vw, 1.4rem);
+  right: clamp(.8rem, 2vw, 1.4rem);
+  bottom: clamp(.8rem, 2vw, 1.4rem);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: linear-gradient(165deg, rgba(15,23,42,.50), rgba(15,23,42,.66));
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  padding: clamp(.7rem, 1.7vw, 1rem);
+  box-shadow: 0 18px 42px rgba(0,0,0,.24);
+}
+
+.nicor-service-3d-card__meta{
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--border) / 0.84);
+  background: rgba(255,255,255,.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: .3rem .65rem;
+  font-size: .73rem;
+  font-weight: 700;
+  color: rgb(var(--text));
+}
+
+@media (max-width: 1023px){
+  .nicor-service-3d-full{
+    min-height: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .nicor-service-3d-stage{
+    height: min(74svh, 620px);
+    min-height: 420px;
+    perspective: 1320px;
+  }
+  .nicor-service-3d-card{
+    width: min(92vw, 760px);
+  }
+  .nicor-service-3d-content{
+    border-radius: 14px;
+    padding: .7rem;
+  }
+}
+
+@media (max-width: 640px){
+  .nicor-service-3d-stage{
+    height: 62svh;
+    min-height: 360px;
+  }
+  .nicor-service-3d-content p{
+    display: none;
+  }
+}
+
+@keyframes nicor-geo-ping{
+  0%{
+    transform: translate(-50%, -50%) scale(1);
+    opacity: .72;
+  }
+  75%{
+    transform: translate(-50%, -50%) scale(4.1);
+    opacity: 0;
+  }
+  100%{
+    transform: translate(-50%, -50%) scale(4.1);
+    opacity: 0;
+  }
+}
+
+@keyframes nicor-geo-drift{
+  0%, 100%{ transform: translate(-50%, -50%) translateY(0); }
+  50%{ transform: translate(-50%, -50%) translateY(-5px); }
+}
+
+@keyframes nicor-geo-spin{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(360deg); }
+}
+
+@keyframes nicor-geo-spin-rev{
+  from{ transform: rotate(360deg); }
+  to{ transform: rotate(0deg); }
+}
+
+@keyframes nicor-geo-place-float{
+  0%, 100%{ transform: translate(-50%, -50%) translateY(0); }
+  50%{ transform: translate(-50%, -50%) translateY(-3px); }
+}
+
+@keyframes nicor-chip-hop{
+  0%, 74%, 100%{
+    transform: translateY(0) scale(1);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  }
+  79%{
+    transform: translateY(-4px) scale(1.035);
+    box-shadow: 0 12px 28px rgba(15,23,42,.18);
+  }
+  84%{
+    transform: translateY(0) scale(1);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  }
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
@@ -758,6 +1527,16 @@ html{ scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce){
   .nicor-skeleton::after{ animation: none; }
+  .nicor-geo-orbit,
+  .nicor-geo-orbit::before,
+  .nicor-geo-orbit::after,
+  .nicor-geo-pin,
+  .nicor-geo-pin::before,
+  .nicor-geo-place,
+  .nicor-geo-chip,
+  .nicor-service-3d-card{
+    animation: none !important;
+  }
 }
 
 /* Scrollbar */

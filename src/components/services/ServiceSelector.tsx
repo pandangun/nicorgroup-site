@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export type ServiceSelectorItem = {
@@ -19,32 +18,28 @@ export type ServiceSelectorItem = {
 
 export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
   const [index, setIndex] = useState(0);
-  const [dir, setDir] = useState<1 | -1>(1);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const current = items[index];
+  const half = Math.floor(items.length / 2);
 
   const goPrev = () => {
-    setDir(-1);
     setIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
   const goNext = () => {
-    setDir(1);
     setIndex((prev) => (prev + 1) % items.length);
   };
 
   const selectAt = (nextIndex: number) => {
     if (nextIndex === index) return;
-    setDir(nextIndex > index ? 1 : -1);
     setIndex(nextIndex);
   };
 
-  const onTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
+  const onTouchStart: React.TouchEventHandler<HTMLElement> = (e) => {
     const t = e.touches[0];
     touchStartRef.current = { x: t.clientX, y: t.clientY };
   };
 
-  const onTouchEnd: React.TouchEventHandler<HTMLDivElement> = (e) => {
+  const onTouchEnd: React.TouchEventHandler<HTMLElement> = (e) => {
     const start = touchStartRef.current;
     if (!start) return;
     touchStartRef.current = null;
@@ -53,7 +48,6 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
     const dx = t.clientX - start.x;
     const dy = t.clientY - start.y;
 
-    // keep native vertical scroll intact; react only to clear horizontal swipes
     if (Math.abs(dx) < 52) return;
     if (Math.abs(dx) < Math.abs(dy) * 1.2) return;
 
@@ -61,10 +55,29 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
     else goPrev();
   };
 
+  const getRelativeOffset = (itemIndex: number) => {
+    let offset = itemIndex - index;
+    if (offset > half) offset -= items.length;
+    if (offset < -half) offset += items.length;
+    return offset;
+  };
+
+  const getCardTransform = (offset: number) => {
+    const abs = Math.abs(offset);
+    const direction = offset === 0 ? 0 : offset > 0 ? 1 : -1;
+    const x = offset * 48;
+    const y = abs * 18;
+    const z = abs === 0 ? 98 : abs === 1 ? -72 : -184;
+    const scale = abs === 0 ? 1 : abs === 1 ? 0.82 : 0.64;
+    const rotateY = direction * -38;
+
+    return `translate(-50%, -50%) translate3d(${x}%, ${y}px, ${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+  };
+
   return (
-    <div className="nicor-card-premium p-4 md:p-6">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <div className="text-sm font-semibold text-zinc-900">Выбор услуги</div>
+    <section className="nicor-service-3d-full">
+      <div className="nicor-service-3d-top">
+        <div className="text-sm font-semibold text-zinc-900 md:text-base">Выбор услуги</div>
         <div className="inline-flex items-center gap-2">
           <button
             type="button"
@@ -89,71 +102,113 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
       </div>
 
       <div
-        className="grid gap-5 lg:grid-cols-[1.15fr_1fr] [touch-action:pan-y]"
+        className="nicor-service-3d-wrap [touch-action:pan-y]"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         onTouchCancel={() => {
           touchStartRef.current = null;
         }}
       >
-        <div className="relative overflow-hidden rounded-[24px] border border-zinc-200 bg-white/80">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={current.href}
-              initial={{ opacity: 0, x: dir > 0 ? 36 : -36 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: dir > 0 ? -36 : 36 }}
-              transition={{ duration: 0.28, ease: "easeOut" }}
-              className="relative aspect-[16/11] w-full"
-            >
-              <Image
-                src={current.image}
-                alt={current.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 56vw"
-                className="object-cover"
-                style={{ objectPosition: current.imagePosition ?? "50% 50%" }}
-                priority={index === 0}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),rgba(0,0,0,0.18))]" />
-            </motion.div>
-          </AnimatePresence>
+        <div className="nicor-service-3d-bg" />
+        <div className="nicor-service-3d-stage">
+          {items.map((item, i) => {
+            const offset = getRelativeOffset(i);
+            const abs = Math.abs(offset);
+            if (abs > 2) return null;
+            const active = i === index;
+
+            return (
+              <div
+                key={`${item.href}-stage`}
+                role="button"
+                tabIndex={0}
+                onClick={() => selectAt(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    selectAt(i);
+                  }
+                }}
+                className={[
+                  "nicor-service-3d-card",
+                  active ? "is-active" : "",
+                  abs >= 2 ? "is-far" : "",
+                ].join(" ")}
+                style={{
+                  transform: getCardTransform(offset),
+                  zIndex: 80 - abs * 14,
+                  opacity: abs === 0 ? 1 : abs === 1 ? 0.9 : 0.56,
+                }}
+                aria-label={`Выбрать услугу: ${item.title}`}
+              >
+                <div className="relative h-full w-full overflow-hidden rounded-[20px]">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                    style={{ objectPosition: item.imagePosition ?? "50% 50%" }}
+                    priority={i === 0}
+                  />
+                  <div
+                    className={[
+                      "pointer-events-none absolute inset-0",
+                      active
+                        ? "bg-[linear-gradient(180deg,rgba(0,0,0,0.06),rgba(0,0,0,0.70))]"
+                        : "bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.36))]",
+                    ].join(" ")}
+                  />
+
+                  {active ? (
+                    <div className="nicor-service-3d-content">
+                      <div className="nicor-badge w-fit !text-[11px] !text-white/95 !border-white/35 !bg-black/35">
+                        {item.tag}
+                      </div>
+                      <h3 className="mt-2 text-xl font-semibold tracking-[-0.02em] text-white md:text-3xl">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 max-w-2xl text-sm text-white/90 md:text-base">{item.desc}</p>
+
+                      <ul className="mt-3 grid gap-1.5 text-xs text-white/95 md:text-sm">
+                        {item.bullets.map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <Link
+                          href={item.href}
+                          onClick={(e) => e.stopPropagation()}
+                          className="nicor-btn-primary nicor-btn-sm !text-white"
+                        >
+                          Открыть услугу
+                        </Link>
+                        <Link
+                          href="/contacts#message"
+                          onClick={(e) => e.stopPropagation()}
+                          className="nicor-btn-ghost nicor-btn-sm !border-white/40 !bg-white/20 !text-white"
+                        >
+                          Рассчитать по фото
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="nicor-service-3d-card__meta">
+                      <span className="truncate">{item.title}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={`${current.href}-content`}
-            initial={{ opacity: 0, x: dir > 0 ? 22 : -22 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: dir > 0 ? -22 : 22 }}
-            transition={{ duration: 0.24, ease: "easeOut" }}
-          >
-            <div className="nicor-badge text-[11px]">{current.tag}</div>
-            <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-zinc-900">{current.title}</h3>
-            <p className="mt-3 text-sm text-zinc-600">{current.desc}</p>
-
-            <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
-              {current.bullets.map((b) => (
-                <li key={b} className="flex gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link href={current.href} className="nicor-btn-primary !text-white">
-                Открыть услугу <ArrowRight className="h-4 w-4 opacity-90" />
-              </Link>
-              <Link href="/contacts#message" className="nicor-btn-ghost">
-                Рассчитать по фото
-              </Link>
-            </div>
-          </motion.div>
-        </AnimatePresence>
       </div>
 
-      <div className="mt-4 lg:hidden">
+      <div className="mt-4">
         <div className="flex items-center justify-center gap-1.5">
           {items.map((item, i) => {
             const active = i === index;
@@ -171,54 +226,7 @@ export function ServiceSelector({ items }: { items: ServiceSelectorItem[] }) {
             );
           })}
         </div>
-
-        <div className="mx-auto mt-3 h-1.5 w-full max-w-[240px] overflow-hidden rounded-full bg-zinc-200/70">
-          <motion.div
-            className="h-full rounded-full bg-zinc-900/85"
-            animate={{ width: `${((index + 1) / items.length) * 100}%` }}
-            transition={{ type: "spring", stiffness: 280, damping: 32 }}
-          />
-        </div>
       </div>
-
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {items.map((item, i) => {
-          const active = i === index;
-
-          return (
-            <button
-              key={item.href}
-              type="button"
-              onClick={() => selectAt(i)}
-              className={[
-                "group overflow-hidden rounded-2xl border text-left transition",
-                active
-                  ? "border-zinc-900/35 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.10)]"
-                  : "border-zinc-200 bg-white/70 hover:border-zinc-300 hover:bg-white/90",
-              ].join(" ")}
-              aria-label={`Выбрать услугу: ${item.title}`}
-            >
-              <div className="relative aspect-[16/9] w-full">
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  fill
-                  sizes="(max-width: 1280px) 50vw, 25vw"
-                  style={{ objectPosition: item.imagePosition ?? "50% 50%" }}
-                  className={[
-                    "object-cover transition duration-300",
-                    active ? "scale-[1.03]" : "group-hover:scale-[1.04]",
-                  ].join(" ")}
-                />
-              </div>
-              <div className="px-3 py-2">
-                <div className="line-clamp-1 text-sm font-semibold text-zinc-900">{item.title}</div>
-                <div className="mt-0.5 text-xs text-zinc-500">{item.tag}</div>
-              </div>
-            </button>
-          );
-        })}
-      </div>
-    </div>
+    </section>
   );
 }

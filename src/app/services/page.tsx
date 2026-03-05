@@ -120,27 +120,9 @@ export default function ServicesPage() {
 
       <div className="nicor-divider" />
 
-      {/* SERVICES GRID */}
-      <section className="nicor-section">
-        <div className="nicor-container">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="nicor-h2">Основные услуги</h2>
-              <p className="mt-2 nicor-p max-w-2xl">
-                Выбирай направление — внутри будет страница услуги с деталями,
-                примерами, частыми вопросами и кнопкой «Рассчитать по фото».
-              </p>
-            </div>
-
-            <Link href="/contacts#message" className="hidden md:inline-flex nicor-btn-ghost">
-              Быстрый расчёт <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="mt-8">
-            <ServiceSelector items={SERVICES} />
-          </div>
-        </div>
+      {/* SERVICES 3D FULLSCREEN */}
+      <section>
+        <ServiceSelector items={SERVICES} />
       </section>
 
       <div className="nicor-divider" />

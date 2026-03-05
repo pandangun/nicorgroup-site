@@ -35,26 +35,15 @@ export function Footer() {
               </span>
             </div>
 
-            {/* Policies + easter egg */}
+            {/* Policies */}
             <div className="mt-5 flex flex-col gap-2 text-sm text-zinc-500">
               <Link href="/personal-data" className="hover:text-zinc-900 transition">
                 Политика обработки персональных данных
               </Link>
 
-              <div className="flex items-baseline gap-2">
-                <Link href="/terms" className="hover:text-zinc-900 transition">
-                  Пользовательское соглашение
-                </Link>
-
-                <Link
-                  href="/game"
-                  className="text-[11px] text-zinc-400 hover:text-zinc-600 transition"
-                  aria-label="Пасхалка: игра"
-                  title="pipe panic"
-                >
-                  .game
-                </Link>
-              </div>
+              <Link href="/terms" className="hover:text-zinc-900 transition">
+                Пользовательское соглашение
+              </Link>
             </div>
           </div>
 

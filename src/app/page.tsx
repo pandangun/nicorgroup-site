@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -13,11 +14,19 @@ import {
   Sparkles,
   Camera,
   Hammer,
+  MessageCircle,
+  Send,
 } from "lucide-react";
 import { Hero } from "@/components/home/Hero";
 
 const PHONE_DISPLAY = "+7 900 630-09-74";
 const PHONE_HREF = "+79006300974";
+const TELEGRAM_USERNAME = "nicor_group";
+const MAX_LINK = "https://max.ru/";
+const WHATSAPP_LINK = `https://wa.me/${PHONE_HREF.replace("+", "")}?text=${encodeURIComponent(
+  "Здравствуйте! Нужна предварительная оценка. Могу отправить фото и описание."
+)}`;
+const TELEGRAM_LINK = `https://t.me/${TELEGRAM_USERNAME}`;
 
 const services = [
   {
@@ -27,6 +36,10 @@ const services = [
     href: "/services/bathroom",
     bullets: ["Смета до начала", "Аккуратно и чисто", "Гарантия по договору"],
     tag: "Комплекс",
+    image: "/images/services/sanuzel1.jpg",
+    imageAlt: "Санузел под ключ",
+    imagePosition: "50% 44%",
+    tint: "linear-gradient(160deg, rgba(15,23,42,.10), rgba(20,184,166,.44))",
   },
   {
     title: "Тёплый пол",
@@ -35,6 +48,10 @@ const services = [
     href: "/services/floor-heating",
     bullets: ["Опрессовка", "Коллекторный узел", "Пуск и проверка"],
     tag: "Комфорт",
+    image: "/images/services/heatfloor.jpg",
+    imageAlt: "Тёплый пол",
+    imagePosition: "50% 52%",
+    tint: "linear-gradient(160deg, rgba(15,23,42,.10), rgba(59,130,246,.42))",
   },
   {
     title: "Отопление",
@@ -43,6 +60,10 @@ const services = [
     href: "/services/heating",
     bullets: ["Узлы и обвязка", "Балансировка", "Настройка/проверка"],
     tag: "Инженерия",
+    image: "/images/services/otoplenie1.jpeg",
+    imageAlt: "Отопление",
+    imagePosition: "50% 46%",
+    tint: "linear-gradient(160deg, rgba(15,23,42,.08), rgba(30,64,175,.44))",
   },
   {
     title: "Установка сантехники",
@@ -51,6 +72,10 @@ const services = [
     href: "/services/installation",
     bullets: ["Монтаж и замена", "Устранение течей", "Подключения"],
     tag: "Сервис",
+    image: "/images/services/sanuzel1.jpg",
+    imageAlt: "Установка сантехники",
+    imagePosition: "50% 62%",
+    tint: "linear-gradient(160deg, rgba(15,23,42,.08), rgba(14,165,233,.44))",
   },
 ];
 
@@ -90,6 +115,54 @@ const geoList = [
   "Мурино",
   "Парнас",
 ];
+
+const geoDistricts = [
+  { name: "Приморский", points: "17,35 25,31 31,35 28,41 19,42", labelX: 23, labelY: 36 },
+  { name: "Выборгский", points: "28,24 35,20 41,24 36,30 30,29", labelX: 34, labelY: 24 },
+  { name: "Калининский", points: "38,29 45,27 50,31 46,37 40,36", labelX: 44, labelY: 31 },
+  { name: "Московский", points: "46,56 54,54 58,59 54,65 47,64", labelX: 52, labelY: 59 },
+  { name: "Невский", points: "57,43 64,41 69,47 64,53 58,50", labelX: 63, labelY: 46 },
+  { name: "Фрунзенский", points: "53,60 60,58 64,64 59,70 53,68", labelX: 58, labelY: 63 },
+  { name: "Петроградский", points: "34,41 40,39 43,44 38,49 33,47", labelX: 38, labelY: 44 },
+  { name: "Красносельский", points: "23,66 31,64 36,70 31,76 24,74", labelX: 29, labelY: 70 },
+  { name: "Кудрово", points: "69,47 74,45 78,50 74,55 69,53", labelX: 73, labelY: 50 },
+  { name: "Мурино", points: "55,19 61,18 64,23 60,27 55,25", labelX: 60, labelY: 22 },
+  { name: "Парнас", points: "47,14 54,13 57,17 52,21 47,19", labelX: 52, labelY: 16 },
+] as const;
+
+const geoPlaces = [
+  {
+    name: "Офис НИКОР",
+    x: 50,
+    y: 54,
+    type: "office" as const,
+    href: "https://yandex.ru/maps/?ll=30.3158%2C59.9386&z=12&pt=30.3158,59.9386,pm2rdm",
+  },
+  {
+    name: "Магазин Север",
+    x: 56,
+    y: 28,
+    type: "store" as const,
+    href: "https://yandex.ru/maps/?ll=30.3605%2C60.0515&z=12&pt=30.3605,60.0515,pm2blm",
+  },
+  {
+    name: "Магазин Центр",
+    x: 44,
+    y: 48,
+    type: "store" as const,
+    href: "https://yandex.ru/maps/?ll=30.3025%2C59.9343&z=13&pt=30.3025,59.9343,pm2blm",
+  },
+  {
+    name: "Магазин Юг",
+    x: 54,
+    y: 72,
+    type: "store" as const,
+    href: "https://yandex.ru/maps/?ll=30.3465%2C59.8110&z=12&pt=30.3465,59.8110,pm2blm",
+  },
+] as const;
+
+const YMAPS_GEO_EMBED =
+  "https://yandex.ru/map-widget/v1/?ll=30.3158%2C59.9386&z=9&pt=30.3158,59.9386,pm2blm";
 
 export default function Home() {
   return (
@@ -154,40 +227,58 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
             {services.map((s) => {
               const Icon = s.icon;
+              const photoHref = `/contacts?service=${encodeURIComponent(s.title)}#message`;
               return (
-                <Link key={s.title} href={s.href} className="nicor-card-premium group p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="grid h-11 w-11 place-items-center rounded-2xl border nicor-border bg-white/60 backdrop-blur">
-                      <Icon className="h-5 w-5 text-zinc-900" />
+                <article key={s.title} className="nicor-home-service group">
+                  <div className="nicor-home-service__media">
+                    <Image
+                      src={s.image}
+                      alt={s.imageAlt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="nicor-home-service__img object-cover"
+                      style={{ objectPosition: s.imagePosition ?? "50% 50%" }}
+                    />
+                    <div className="nicor-home-service__veil" style={{ background: s.tint }} />
+
+                    <div className="nicor-home-service__top">
+                      <span className="nicor-home-service__tag">{s.tag}</span>
+                      <span className="nicor-home-service__icon">
+                        <Icon className="h-4 w-4" />
+                      </span>
                     </div>
 
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="truncate text-base font-semibold">{s.title}</div>
-                        <span className="nicor-chip text-[11px]">{s.tag}</span>
-                      </div>
+                    <Link href={photoHref} className="nicor-home-service__photo-btn">
+                      Рассчитать по фото <Camera className="h-4 w-4" />
+                    </Link>
+                  </div>
 
-                      <div className="mt-1 text-sm text-zinc-600">{s.desc}</div>
+                  <div className="nicor-home-service__body">
+                    <h3 className="nicor-home-service__title">{s.title}</h3>
+                    <p className="mt-2 text-sm text-zinc-600 md:text-[15px]">{s.desc}</p>
 
-                      <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
-                        {s.bullets.map((b) => (
-                          <li key={b} className="flex gap-2">
-                            <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
+                    <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
+                      {s.bullets.map((b) => (
+                        <li key={b} className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
 
-                      <div className="mt-5 inline-flex items-center gap-2 text-sm text-zinc-700 group-hover:text-zinc-950">
-                        Подробнее{" "}
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                      </div>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      <Link href={s.href} className="nicor-btn-primary nicor-btn-sm !text-white">
+                        Подробнее <ArrowRight className="h-4 w-4 opacity-90" />
+                      </Link>
+                      <Link href={photoHref} className="nicor-btn-subtle nicor-btn-sm">
+                        По фото <Camera className="h-4 w-4 opacity-90" />
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                </article>
               );
             })}
           </div>
@@ -311,46 +402,148 @@ export default function Home() {
       {/* GEO */}
       <section className="nicor-section">
         <div className="nicor-container py-14">
-          <div className="max-w-3xl">
-            <h2 className="nicor-h2">География работ</h2>
-            <p className="mt-2 nicor-p">
-              Санкт-Петербург и ближайшие районы Ленинградской области. Уточним выезд и время по заявке.
-            </p>
-          </div>
+          <div className="mx-auto max-w-5xl">
+            <div className="nicor-card-premium p-6 md:p-8 lg:p-10">
+              <div className="max-w-3xl">
+                <h2 className="nicor-h2">География работ</h2>
+                <p className="mt-2 nicor-p">
+                  Санкт-Петербург и ближайшие районы Ленинградской области. Уточним выезд и время
+                  по заявке.
+                </p>
+              </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <div className="nicor-card-soft p-6">
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <MapPin className="h-4 w-4" />
-                Районы (пример)
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {geoList.map((x) => (
-                  <span key={x} className="nicor-chip">
-                    {x}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-4 text-xs text-zinc-500">
-                Позже добавим geo-страницы под SEO без мусора.
-              </div>
-            </div>
+              <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+                <div className="nicor-geo-stage">
+                  <div className="nicor-geo-map" aria-hidden="true">
+                    <iframe
+                      title="География работ НИКОР"
+                      src={YMAPS_GEO_EMBED}
+                      className="nicor-geo-map__frame"
+                      loading="lazy"
+                    />
+                  </div>
 
-            <div className="nicor-card-soft p-6">
-              <div className="flex items-center gap-2 text-sm font-semibold">
-                <Clock className="h-4 w-4" />
-                Скорость ответа
+                  <div className="nicor-geo-orbit" />
+                  <div className="nicor-geo-core">
+                    <MapPin className="h-4 w-4" />
+                    <span>Санкт-Петербург</span>
+                  </div>
+
+                  <svg className="nicor-geo-districts" viewBox="0 0 100 100" aria-hidden="true">
+                    {geoDistricts.map((district) => (
+                      <g key={district.name}>
+                        <polygon className="nicor-geo-district" points={district.points} />
+                        <text
+                          x={district.labelX}
+                          y={district.labelY}
+                          textAnchor="middle"
+                          className="nicor-geo-district-label"
+                        >
+                          {district.name}
+                        </text>
+                      </g>
+                    ))}
+                  </svg>
+
+                  {geoPlaces.map((point, idx) => (
+                    <a
+                      key={point.name}
+                      href={point.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Открыть точку ${point.name} в Яндекс Картах`}
+                      className={[
+                        "nicor-geo-place",
+                        point.type === "office" ? "is-office" : "is-store",
+                      ].join(" ")}
+                      style={{
+                        left: `${point.x}%`,
+                        top: `${point.y}%`,
+                        animationDelay: `${idx * 140}ms`,
+                      }}
+                    >
+                      <MapPin className="h-3.5 w-3.5" />
+                      <span>{point.name}</span>
+                    </a>
+                  ))}
+                </div>
+
+                <div className="nicor-card-soft p-5 md:p-6">
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <MapPin className="h-4 w-4" />
+                    Активные районы
+                  </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {geoList.map((x, idx) => (
+                      <span
+                        key={x}
+                        className="nicor-chip nicor-geo-chip"
+                        style={{ animationDelay: `${idx * 130}ms` }}
+                      >
+                        {x}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-5 rounded-2xl border nicor-border bg-white/55 p-4 text-sm text-zinc-700">
+                    <div className="flex items-center gap-2 font-semibold text-zinc-900">
+                      <Clock className="h-4 w-4" />
+                      Скорость ответа
+                    </div>
+                    <p className="mt-2">
+                      Быстрее всего отвечаем по заявкам с фото. Если срочно, лучше звонок.
+                    </p>
+                  </div>
+
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                    <a href={`tel:${PHONE_HREF}`} className="nicor-btn-ghost">
+                      Позвонить <PhoneCall className="h-4 w-4 opacity-90" />
+                    </a>
+                  </div>
+
+                  <div className="mt-3 rounded-2xl border nicor-border bg-white/55 p-4">
+                    <div className="mb-2 text-xs font-semibold uppercase tracking-[0.08em] text-zinc-500">
+                      Мессенджеры
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={WHATSAPP_LINK}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="nicor-pill nicor-pill--wa"
+                        aria-label="Написать в WhatsApp"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                      </a>
+                      <a
+                        href={TELEGRAM_LINK}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="nicor-pill nicor-pill--tg"
+                        aria-label="Написать в Telegram"
+                      >
+                        <Send className="h-4 w-4" />
+                        Telegram
+                      </a>
+                      <a
+                        href={MAX_LINK}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="nicor-pill nicor-pill--max"
+                        aria-label="Открыть MAX"
+                      >
+                        <span className="nicor-max-dot" />
+                        MAX
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="mt-3 text-sm text-zinc-700">
-                Быстрее всего отвечаем по заявкам с фото. Если срочно — лучше звонок.
-              </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <a href={`tel:${PHONE_HREF}`} className="nicor-btn-ghost">
-                  Позвонить <PhoneCall className="h-4 w-4 opacity-90" />
-                </a>
-                <Link href="/contacts" className="nicor-btn-subtle">
-                  Контакты <ArrowRight className="h-4 w-4 opacity-90" />
-                </Link>
+
+              <div className="mt-6 text-xs text-zinc-500">
+                География показана как ориентир по основным зонам выезда. Точный адрес и время
+                согласуем в заявке.
               </div>
             </div>
           </div>

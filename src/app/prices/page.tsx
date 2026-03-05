@@ -11,6 +11,7 @@ import {
   ReceiptRussianRuble,
   Info,
 } from "lucide-react";
+import { PackageSpinGrid, type PackageItem } from "@/components/prices/PackageSpinGrid";
 
 type PriceItem = {
   name: string;
@@ -96,7 +97,7 @@ const SECTIONS: PriceSection[] = [
   },
 ];
 
-const PACKAGES = [
+const PACKAGES: PackageItem[] = [
   {
     title: "Быстрый монтаж",
     price: "от 6 500 ₽",
@@ -309,31 +310,7 @@ export default function PricesPage() {
               </Link>
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {PACKAGES.map((p) => (
-                <div key={p.title} className="nicor-card-premium p-6 nicor-glow-hover">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-base font-semibold">{p.title}</div>
-                    <span className="nicor-badge">{p.tag}</span>
-                  </div>
-                  <div className="mt-2 text-2xl font-semibold">{p.price}</div>
-                  <div className="mt-2 text-sm text-zinc-600">{p.desc}</div>
-
-                  <ul className="mt-4 grid gap-2 text-sm text-zinc-700">
-                    {p.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 text-zinc-900" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link href="/contacts#message" className="mt-5 w-full nicor-btn-primary">
-                    Узнать точнее <ArrowRight className="h-4 w-4 opacity-90" />
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <PackageSpinGrid items={PACKAGES} />
           </section>
 
           <div className="nicor-divider my-2" />
